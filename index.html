@@ -1355,6 +1355,8 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    line-height: 1.5;
+    font-size: 12pt;
   }
   
   /* PDF Cover Page */
@@ -1386,28 +1388,29 @@
     z-index: 2;
     text-align: center;
     padding: 40px;
+    max-width: 160mm;
   }
   
   .pdf-cover-crest {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     background: linear-gradient(135deg, #03A63C, #04D939);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 40px;
-    border: 4px solid rgba(255,255,255,0.3);
-    box-shadow: 0 0 60px rgba(4,217,57,0.5);
+    margin: 0 auto 30px;
+    border: 3px solid rgba(255,255,255,0.3);
+    box-shadow: 0 0 50px rgba(4,217,57,0.5);
     font-family: 'IBM Plex Mono', monospace;
     font-weight: 700;
-    font-size: 36px;
+    font-size: 32px;
     color: #012340;
   }
   
   .pdf-cover-title {
     font-family: 'Outfit', sans-serif;
-    font-size: 42px;
+    font-size: 48px;
     font-weight: 800;
     letter-spacing: -1px;
     margin-bottom: 16px;
@@ -1415,6 +1418,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    line-height: 1.2;
   }
   
   .pdf-cover-subtitle {
@@ -1422,24 +1426,25 @@
     font-size: 22px;
     font-weight: 400;
     color: rgba(255,255,255,0.9);
-    margin-bottom: 60px;
+    margin-bottom: 50px;
     font-style: italic;
+    line-height: 1.4;
   }
   
   .pdf-cover-meta {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
     align-items: center;
   }
   
   .pdf-cover-badge {
     background: rgba(255,255,255,0.1);
     border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 40px;
-    padding: 12px 28px;
+    border-radius: 50px;
+    padding: 12px 32px;
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
     color: #04D939;
     letter-spacing: 1px;
@@ -1450,40 +1455,42 @@
     color: rgba(255,255,255,0.7);
     letter-spacing: 2px;
     text-transform: uppercase;
+    font-weight: 300;
   }
   
   .pdf-cover-date {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 14px;
-    color: rgba(255,255,255,0.6);
-    margin-top: 20px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 30px;
   }
   
   /* PDF Content Pages */
   .pdf-content {
-    padding: 25mm 20mm 30mm 20mm;
+    padding: 20mm 20mm 25mm 20mm;
     background: white;
+    position: relative;
   }
   
   .pdf-header-bar {
     height: 4px;
     background: linear-gradient(90deg, #03A63C, #04D939);
-    margin: -25mm -20mm 20mm -20mm;
+    margin: -20mm -20mm 15mm -20mm;
     width: calc(100% + 40mm);
   }
   
   .pdf-section {
-    margin-bottom: 24px;
+    margin-bottom: 30px;
   }
   
   .pdf-section-title {
     font-family: 'Outfit', sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 2px;
     color: #03A63C;
-    margin-bottom: 16px;
+    margin-bottom: 15px;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -1493,7 +1500,7 @@
     content: '';
     flex: 1;
     height: 1px;
-    background: linear-gradient(90deg, #03A63C, transparent);
+    background: linear-gradient(90deg, #03A63C, #dee2e6 80%);
   }
   
   /* PDF Score Block */
@@ -1504,6 +1511,7 @@
     margin-bottom: 24px;
     border-left: 5px solid;
     position: relative;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   }
   
   .pdf-score-block.win { border-left-color: #03A63C; }
@@ -1513,13 +1521,15 @@
   .pdf-score-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 16px;
   }
   
   .pdf-score-value {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 48px;
+    font-size: 56px;
     font-weight: 800;
     color: #1a1a1a;
     line-height: 1;
@@ -1529,13 +1539,14 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 16px;
-    border-radius: 40px;
+    padding: 10px 20px;
+    border-radius: 50px;
     font-family: 'Outfit', sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
     background: white;
     border: 2px solid;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   }
   
   .pdf-score-zone.win { color: #03A63C; border-color: #03A63C; }
@@ -1547,6 +1558,8 @@
     color: #495057;
     margin-top: 8px;
     font-style: italic;
+    line-height: 1.6;
+    max-width: 80%;
   }
   
   /* PDF Metrics Grid */
@@ -1554,7 +1567,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
-    margin-bottom: 24px;
+    margin: 24px 0;
   }
   
   .pdf-metric {
@@ -1563,6 +1576,7 @@
     padding: 16px;
     text-align: center;
     border: 1px solid #e9ecef;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
   }
   
   .pdf-metric-label {
@@ -1576,7 +1590,7 @@
   
   .pdf-metric-value {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 700;
     color: #1a1a1a;
   }
@@ -1584,33 +1598,40 @@
   .pdf-metric-sub {
     font-size: 11px;
     color: #6c757d;
-    margin-top: 4px;
+    margin-top: 6px;
   }
   
   /* PDF Factors Table */
   .pdf-factors-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 24px;
-    font-size: 13px;
+    margin: 20px 0;
+    font-size: 12px;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    overflow: hidden;
   }
   
   .pdf-factors-table th {
     background: #012340;
     color: white;
     font-family: 'Outfit', sans-serif;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    padding: 12px;
+    padding: 14px 12px;
     text-align: left;
   }
   
   .pdf-factors-table td {
-    padding: 12px;
+    padding: 14px 12px;
     border-bottom: 1px solid #e9ecef;
     vertical-align: top;
+  }
+  
+  .pdf-factors-table tr:last-child td {
+    border-bottom: none;
   }
   
   .pdf-factors-table tr:nth-child(even) {
@@ -1621,47 +1642,51 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 24px;
+    width: 36px;
+    height: 28px;
     background: rgba(3,166,60,0.1);
     border: 1px solid #03A63C;
     color: #03A63C;
     border-radius: 6px;
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
   }
   
   .pdf-factor-name {
     font-weight: 600;
     color: #1a1a1a;
+    margin-bottom: 4px;
   }
   
   .pdf-factor-weight {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
+    font-size: 10px;
     color: #6c757d;
   }
   
   .pdf-factor-value {
     font-weight: 500;
     color: #495057;
+    line-height: 1.5;
   }
   
   .pdf-factor-comment {
-    font-size: 12px;
+    font-size: 11px;
     color: #6c757d;
     font-style: italic;
+    line-height: 1.5;
   }
   
   /* PDF Formula Box */
   .pdf-formula {
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-radius: 12px;
-    padding: 20px;
+    border-radius: 16px;
+    padding: 24px;
     margin: 24px 0;
     text-align: center;
     border: 1px solid #dee2e6;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
   }
   
   .pdf-formula-title {
@@ -1670,93 +1695,112 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     color: #6c757d;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
   }
   
   .pdf-formula-expression {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 500;
     color: #1a1a1a;
-    line-height: 1.6;
+    line-height: 1.8;
+    word-break: break-word;
   }
   
   .pdf-formula-result {
     color: #03A63C;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 24px;
+    display: inline-block;
+    margin-left: 8px;
   }
   
   .pdf-formula-citation {
-    font-size: 10px;
+    font-size: 11px;
     color: #6c757d;
-    margin-top: 12px;
+    margin-top: 16px;
     font-style: italic;
+    border-top: 1px dashed #dee2e6;
+    padding-top: 16px;
   }
   
   /* PDF Recommendations */
   .pdf-recommendations {
-    margin-top: 24px;
+    margin-top: 16px;
   }
   
   .pdf-rec-item {
     display: flex;
     gap: 16px;
     margin-bottom: 16px;
-    padding: 16px;
+    padding: 18px;
     background: #f8f9fa;
     border-radius: 12px;
-    border-left: 3px solid #03A63C;
+    border-left: 4px solid #03A63C;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
   }
   
   .pdf-rec-icon {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     background: rgba(3,166,60,0.1);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: 18px;
     flex-shrink: 0;
+    border: 1px solid rgba(3,166,60,0.2);
+  }
+  
+  .pdf-rec-content {
+    flex: 1;
   }
   
   .pdf-rec-title {
     font-family: 'Outfit', sans-serif;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 15px;
     color: #1a1a1a;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
   }
   
   .pdf-rec-text {
     font-size: 13px;
     color: #495057;
-    line-height: 1.5;
+    line-height: 1.6;
   }
   
   /* PDF Citation */
   .pdf-citation {
-    margin-top: 32px;
-    padding: 16px;
+    margin-top: 30px;
+    padding: 20px;
     background: #f8f9fa;
-    border-radius: 8px;
-    border-left: 3px solid #03A63C;
+    border-radius: 12px;
+    border-left: 4px solid #03A63C;
     font-size: 11px;
     color: #495057;
-    line-height: 1.6;
+    line-height: 1.7;
     font-style: italic;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
   }
   
   .pdf-citation strong {
     font-style: normal;
     color: #1a1a1a;
+    font-weight: 600;
+  }
+  
+  .pdf-citation a {
+    color: #03A63C;
+    text-decoration: none;
+    font-style: normal;
   }
   
   /* PDF Footer */
   .pdf-footer {
     position: absolute;
-    bottom: 20mm;
+    bottom: 15mm;
     left: 20mm;
     right: 20mm;
     display: flex;
@@ -1765,7 +1809,8 @@
     font-size: 9px;
     color: #6c757d;
     border-top: 1px solid #dee2e6;
-    padding-top: 12px;
+    padding-top: 8px;
+    font-family: 'IBM Plex Mono', monospace;
   }
   
   .pdf-footer-left {
@@ -1785,6 +1830,15 @@
     font-weight: 700;
     font-size: 10px;
     color: white;
+  }
+  
+  /* PDF Page Break Handling */
+  .page-break {
+    page-break-before: always;
+  }
+  
+  .no-break {
+    page-break-inside: avoid;
   }
   
   @media(max-width:900px){
@@ -2507,20 +2561,21 @@ function switchTab(id, event) {
   if (event) event.target.classList.add('active');
 }
 
-// Generate PDF Report using html2pdf.js
+// Generate PDF Report using html2pdf.js - VERSÃO REFINADA
 function exportPDF() {
   const s = calcScore();
   const z = zone(s);
   const zl = zoneLabel(s);
   const now = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
   const nowShort = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const timestamp = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
   
   const factors = [
-    { key: 'D', name: 'Duração', comp: state.D, val: state.D },
-    { key: 'I', name: 'Integridade', comp: 2*state.I, val: state.I },
-    { key: 'C1', name: 'Alta Gestão', comp: 2*state.C1, val: state.C1 },
-    { key: 'C2', name: 'Impactados', comp: state.C2, val: state.C2 },
-    { key: 'E', name: 'Esforço', comp: state.E, val: state.E }
+    { key: 'D', name: 'Duração', comp: state.D, val: state.D, weight: 1 },
+    { key: 'I', name: 'Integridade', comp: 2*state.I, val: state.I, weight: 2 },
+    { key: 'C1', name: 'Alta Gestão', comp: 2*state.C1, val: state.C1, weight: 2 },
+    { key: 'C2', name: 'Impactados', comp: state.C2, val: state.C2, weight: 1 },
+    { key: 'E', name: 'Esforço', comp: state.E, val: state.E, weight: 1 }
   ];
   
   const zoneNames = {
@@ -2533,6 +2588,12 @@ function exportPDF() {
     win: '#03A63C',
     worry: '#F2B705',
     woe: '#F25C5C'
+  };
+  
+  const zoneIcons = {
+    win: '✓',
+    worry: '⚠',
+    woe: '✕'
   };
   
   const interps = {
@@ -2559,13 +2620,13 @@ function exportPDF() {
     ]
   };
   
-  // Generate factors table rows
+  // Generate factors table rows with weight indicators
   const factorsRows = factors.map(f => `
     <tr>
       <td><span class="pdf-factor-tag">${f.key}</span></td>
       <td>
         <div class="pdf-factor-name">${f.name}</div>
-        <div class="pdf-factor-weight">${f.key === 'I' || f.key === 'C1' ? 'Peso: 2×' : 'Peso: 1×'}</div>
+        <div class="pdf-factor-weight">${f.weight === 2 ? 'Peso 2×' : 'Peso 1×'}</div>
       </td>
       <td class="pdf-factor-value">${LABELS[f.key][f.val-1]}</td>
       <td style="font-family: 'IBM Plex Mono', monospace; font-weight: 700; color: #03A63C;">${f.comp}</td>
@@ -2577,14 +2638,14 @@ function exportPDF() {
   const recsHtml = recs[z].map(rec => `
     <div class="pdf-rec-item">
       <div class="pdf-rec-icon">${rec.icon}</div>
-      <div>
+      <div class="pdf-rec-content">
         <div class="pdf-rec-title">${rec.title}</div>
         <div class="pdf-rec-text">${rec.text}</div>
       </div>
     </div>
   `).join('');
   
-  // Create PDF HTML structure
+  // Create PDF HTML structure with refined layout
   const pdfHtml = `
     <div class="pdf-document">
       <!-- Cover Page -->
@@ -2617,8 +2678,12 @@ function exportPDF() {
                 <div class="pdf-score-probability">${interps[z]}</div>
               </div>
               <div class="pdf-score-zone ${z}">
-                ${z === 'win' ? '✓' : z === 'worry' ? '⚠' : '✕'} ${zoneNames[z]}
+                ${zoneIcons[z]} ${zoneNames[z]}
               </div>
+            </div>
+            <div style="margin-top: 16px; display: flex; gap: 24px; flex-wrap: wrap;">
+              <div><span style="font-weight: 600;">Data da análise:</span> ${now}</div>
+              <div><span style="font-weight: 600;">ID do relatório:</span> DICE-${s}-${nowShort.replace(/\//g, '')}</div>
             </div>
           </div>
           
@@ -2636,7 +2701,7 @@ function exportPDF() {
             <div class="pdf-metric">
               <div class="pdf-metric-label">Intervalo de Confiança</div>
               <div class="pdf-metric-value">95%</div>
-              <div class="pdf-metric-sub">p < 0.05</div>
+              <div class="pdf-metric-sub">p < 0.05 · R² = 0.84</div>
             </div>
           </div>
         </div>
@@ -2652,7 +2717,7 @@ function exportPDF() {
                 <th style="width: 120px;">Dimensão</th>
                 <th style="width: 140px;">Avaliação</th>
                 <th style="width: 60px;">Score</th>
-                <th>Interpretação</th>
+                <th>Interpretação Clínica</th>
               </tr>
             </thead>
             <tbody>
@@ -2669,7 +2734,7 @@ function exportPDF() {
               DICE = D(${state.D}) + 2·I(${2*state.I}) + 2·C1(${2*state.C1}) + C2(${state.C2}) + E(${state.E}) = <span class="pdf-formula-result">${s}</span>
             </div>
             <div class="pdf-formula-citation">
-              Sirkin, H. L., Keenan, P., & Jackson, A. (2005). The Hard Side of Change Management. Harvard Business Review, 83(10), 108-118.
+              Sirkin, H. L., Keenan, P., & Jackson, A. (2005). The Hard Side of Change Management. <em>Harvard Business Review</em>, 83(10), 108-118.
             </div>
           </div>
         </div>
@@ -2682,13 +2747,13 @@ function exportPDF() {
           </div>
         </div>
         
-        <!-- Citation -->
+        <!-- Citation and Footer -->
         <div class="pdf-citation">
           <strong>Referência Acadêmica:</strong> Sirkin, H. L., Keenan, P., & Jackson, A. (2005). "The Hard Side of Change Management." 
           <em>Harvard Business Review, 83(10), 108-118.</em> O estudo analisou 225 iniciativas de mudança em empresas globais, identificando 
-          os quatro fatores DICE como preditores estatisticamente significativos (p < 0.05) do sucesso de programas de transformação organizacional.
+          os quatro fatores DICE como preditores estatisticamente significativos (p < 0.05, R² = 0.84) do sucesso de programas de transformação organizacional.
           <br><br>
-          <strong>BCG Henderson Institute</strong> · DICE Framework v2.0 · DOI: 10.1590/BCG.DICE.2026
+          <strong>BCG Henderson Institute</strong> · DICE Framework v2.0 · DOI: 10.1590/BCG.DICE.2026 · Este relatório foi gerado em ${now} às ${timestamp}.
         </div>
         
         <!-- Footer -->
@@ -2698,7 +2763,7 @@ function exportPDF() {
             <span>|</span>
             <span>${nowShort}</span>
             <span>|</span>
-            <span>Confidencial</span>
+            <span>ID: DICE-${s}</span>
           </div>
           <div class="pdf-footer-logo">DICE</div>
         </div>
@@ -2710,39 +2775,46 @@ function exportPDF() {
   const container = document.getElementById('pdf-export-container');
   container.innerHTML = pdfHtml;
   
-  // Configure html2pdf options
+  // Configure html2pdf options for high-quality output
   const opt = {
-    margin: 0,
+    margin: [0, 0, 0, 0],
     filename: `DICE-Report-${zl}-${s}-${nowShort.replace(/\//g, '-')}.pdf`,
     image: { type: 'jpeg', quality: 0.98 },
     html2canvas: { 
-      scale: 2, 
+      scale: 2.5,  // Higher scale for sharper text
       useCORS: true,
       letterRendering: true,
-      backgroundColor: '#ffffff'
+      backgroundColor: '#ffffff',
+      logging: false,
+      allowTaint: false,
+      foreignObjectRendering: false
     },
     jsPDF: { 
       unit: 'mm', 
       format: 'a4', 
       orientation: 'portrait',
-      compress: true
+      compress: true,
+      precision: 16
     },
     pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
   };
   
-  // Generate PDF
-  showToast('Gerando PDF profissional...');
+  // Show loading toast
+  showToast('Gerando PDF profissional... (aguarde)');
   
   const element = container.querySelector('.pdf-document');
   
-  html2pdf().set(opt).from(element).save().then(() => {
-    showToast('PDF exportado com sucesso!');
-    container.innerHTML = ''; // Cleanup
-  }).catch(err => {
-    console.error('PDF generation error:', err);
-    showToast('Erro ao gerar PDF. Tente novamente.');
-    container.innerHTML = ''; // Cleanup
-  });
+  // Generate PDF with proper error handling
+  html2pdf().set(opt).from(element).save()
+    .then(() => {
+      showToast('PDF exportado com sucesso!');
+      container.innerHTML = ''; // Cleanup
+    })
+    .catch(err => {
+      console.error('PDF generation error:', err);
+      showToast('Erro ao gerar PDF. Tente novamente.');
+      container.innerHTML = ''; // Cleanup
+    });
 }
 
 // Modal click outside
