@@ -5,42 +5,78 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DICE Model · Analisador de Projetos BCG</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --win:    #1a7a6e;
-    --win-lt: #e8f5f3;
-    --win-md: #2a9d8f;
-    --worry:  #c8860a;
-    --worry-lt: #fef6e4;
-    --worry-md: #e9a825;
-    --woe:    #b5311e;
-    --woe-lt: #fdecea;
-    --woe-md: #e05c44;
-    --ink:    #111827;
-    --muted:  #6b7280;
-    --border: #e5e7eb;
-    --surface:#f9fafb;
-    --white:  #ffffff;
-    --radius: 16px;
-    --shadow: 0 4px 24px rgba(0,0,0,.08);
+    --win:       #1db89e;
+    --win-lt:    rgba(29,184,158,0.12);
+    --win-md:    #2dd4bf;
+    --worry:     #f59e0b;
+    --worry-lt:  rgba(245,158,11,0.12);
+    --worry-md:  #fbbf24;
+    --woe:       #ef4444;
+    --woe-lt:    rgba(239,68,68,0.12);
+    --woe-md:    #f87171;
+    --ink:       #f0f4ff;
+    --muted:     #8892aa;
+    --border:    rgba(255,255,255,0.08);
+    --border-md: rgba(255,255,255,0.14);
+    --surface:   rgba(255,255,255,0.04);
+    --surface-md:rgba(255,255,255,0.07);
+    --white:     #ffffff;
+    --radius:    16px;
+    --shadow:    0 4px 32px rgba(0,0,0,.35);
+
+    /* Dark background colors */
+    --bg-deep:   #080b14;
+    --bg-mid:    #0d1120;
+    --card-bg:   rgba(14,18,32,0.85);
+    --card-bg2:  rgba(18,24,40,0.9);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: 'DM Sans', sans-serif;
-    background: #f1f5f9;
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg-deep);
     min-height: 100vh;
     color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── GRADIENT BG ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 10% -10%, rgba(99,60,180,0.35) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 90% 10%, rgba(30,100,200,0.28) 0%, transparent 55%),
+      radial-gradient(ellipse 70% 70% at 50% 100%, rgba(10,50,120,0.25) 0%, transparent 60%),
+      linear-gradient(160deg, #0a0d1a 0%, #080c18 40%, #060911 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Subtle noise texture */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.45;
+    pointer-events: none;
+    z-index: 0;
   }
 
   /* ── HEADER ── */
   .header {
-    background: var(--white);
+    background: rgba(8,11,20,0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
     padding: 0 40px;
-    height: 64px;
+    height: 66px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -48,59 +84,92 @@
     top: 0;
     z-index: 100;
   }
+
   .header-brand {
     display: flex;
     align-items: center;
     gap: 12px;
   }
+
   .header-logo {
-    width: 36px; height: 36px;
-    background: var(--ink);
+    width: 38px;
+    height: 38px;
     border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    color: #fff;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border-md);
+    flex-shrink: 0;
+  }
+
+  .header-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .header-logo-fallback {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
+    color: var(--win-md);
     letter-spacing: -0.5px;
   }
+
   .header-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 20px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
     color: var(--ink);
     letter-spacing: -0.3px;
   }
+
   .header-sub {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--muted);
     font-weight: 400;
-    margin-left: 2px;
     display: block;
+    letter-spacing: 0.2px;
   }
+
   .header-nav {
     display: flex;
     gap: 4px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 4px;
   }
+
   .tab-btn {
-    padding: 8px 18px;
-    border-radius: 10px;
+    padding: 7px 18px;
+    border-radius: 9px;
     border: none;
     background: transparent;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
     color: var(--muted);
     cursor: pointer;
-    transition: all .15s;
+    transition: all .2s;
+    letter-spacing: 0.1px;
   }
-  .tab-btn:hover { background: var(--surface); color: var(--ink); }
-  .tab-btn.active { background: var(--ink); color: #fff; }
+  .tab-btn:hover { color: var(--ink); background: rgba(255,255,255,0.05); }
+  .tab-btn.active {
+    background: rgba(255,255,255,0.10);
+    color: var(--ink);
+    border: 1px solid rgba(255,255,255,0.12);
+  }
 
   /* ── LAYOUT ── */
   .app {
     max-width: 1320px;
     margin: 0 auto;
     padding: 32px 24px 60px;
+    position: relative;
+    z-index: 1;
   }
 
   /* ── VIEWS ── */
@@ -110,242 +179,262 @@
   /* ── ANALYZER VIEW ── */
   .analyzer-grid {
     display: grid;
-    grid-template-columns: 340px 1fr;
-    gap: 24px;
+    grid-template-columns: 350px 1fr;
+    gap: 20px;
     align-items: start;
   }
 
   .card {
-    background: var(--white);
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-radius: var(--radius);
     border: 1px solid var(--border);
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow), 0 0 0 0.5px rgba(255,255,255,0.03) inset;
     overflow: hidden;
   }
-  .card-header {
-    padding: 20px 24px 0;
-  }
+
+  .card-header { padding: 22px 24px 0; }
+
   .card-title {
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 10px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
+    letter-spacing: 1.2px;
     color: var(--muted);
     margin-bottom: 4px;
   }
+
   .card-heading {
-    font-family: 'DM Serif Display', serif;
-    font-size: 22px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
     color: var(--ink);
     letter-spacing: -0.3px;
   }
-  .card-body { padding: 24px; }
+
+  .card-body { padding: 22px 24px; }
 
   /* ── INPUTS ── */
   .factor-list { display: flex; flex-direction: column; gap: 14px; }
 
-  .factor-row {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
+  .factor-row { display: flex; flex-direction: column; gap: 6px; }
+
   .factor-label {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 600;
     color: var(--ink);
+    opacity: 0.85;
   }
+
   .factor-tag {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 28px; height: 22px;
-    background: var(--ink);
-    color: #fff;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--win-md);
     border-radius: 6px;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
-    font-weight: 500;
+    font-weight: 600;
     flex-shrink: 0;
   }
+
   .factor-desc {
-    font-size: 11px;
+    font-size: 10.5px;
     color: var(--muted);
     font-weight: 400;
     margin-left: auto;
+    opacity: 0.7;
   }
+
   .factor-options {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 4px;
   }
+
   .opt-btn {
-    border: 1.5px solid var(--border);
-    background: var(--white);
+    border: 1px solid var(--border-md);
+    background: rgba(255,255,255,0.03);
     border-radius: 8px;
-    padding: 6px 4px;
+    padding: 7px 4px;
     cursor: pointer;
-    transition: all .12s;
+    transition: all .15s;
     text-align: center;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 13px;
     font-weight: 500;
     color: var(--muted);
     line-height: 1.2;
-    position: relative;
   }
+
   .opt-btn .opt-num {
     display: block;
     font-size: 15px;
     font-weight: 700;
     color: var(--ink);
-    transition: color .12s;
+    opacity: 0.7;
+    transition: all .12s;
   }
+
   .opt-btn .opt-label {
     display: block;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Outfit', sans-serif;
     font-size: 9.5px;
     color: var(--muted);
     font-weight: 500;
-    margin-top: 1px;
+    margin-top: 2px;
     line-height: 1.2;
-    transition: color .12s;
+    transition: all .12s;
   }
-  .opt-btn:hover { border-color: #9ca3af; background: var(--surface); }
+
+  .opt-btn:hover {
+    border-color: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.06);
+  }
+
   .opt-btn.selected {
-    border-color: var(--ink);
-    background: var(--ink);
+    border-color: transparent;
   }
-  .opt-btn.selected .opt-num,
-  .opt-btn.selected .opt-label { color: #fff; }
 
-  /* Color-coded selection states */
-  .opt-btn[data-val="1"].selected { background: var(--win); border-color: var(--win); }
-  .opt-btn[data-val="2"].selected { background: #3b82f6; border-color: #3b82f6; }
-  .opt-btn[data-val="3"].selected { background: var(--worry); border-color: var(--worry); }
-  .opt-btn[data-val="4"].selected { background: var(--woe); border-color: var(--woe); }
-  .opt-btn[data-val="1"].selected .opt-num,
-  .opt-btn[data-val="1"].selected .opt-label,
-  .opt-btn[data-val="2"].selected .opt-num,
-  .opt-btn[data-val="2"].selected .opt-label,
-  .opt-btn[data-val="3"].selected .opt-num,
-  .opt-btn[data-val="3"].selected .opt-label,
-  .opt-btn[data-val="4"].selected .opt-num,
-  .opt-btn[data-val="4"].selected .opt-label { color: #fff; }
+  .opt-btn[data-val="1"].selected { background: rgba(29,184,158,0.2); border-color: rgba(29,184,158,0.5); }
+  .opt-btn[data-val="2"].selected { background: rgba(59,130,246,0.2); border-color: rgba(59,130,246,0.5); }
+  .opt-btn[data-val="3"].selected { background: rgba(245,158,11,0.2); border-color: rgba(245,158,11,0.5); }
+  .opt-btn[data-val="4"].selected { background: rgba(239,68,68,0.2);  border-color: rgba(239,68,68,0.5); }
 
-  .divider { height: 1px; background: var(--border); margin: 4px 0 8px; }
+  .opt-btn[data-val="1"].selected .opt-num { color: var(--win-md); opacity: 1; }
+  .opt-btn[data-val="2"].selected .opt-num { color: #60a5fa; opacity: 1; }
+  .opt-btn[data-val="3"].selected .opt-num { color: var(--worry-md); opacity: 1; }
+  .opt-btn[data-val="4"].selected .opt-num { color: var(--woe-md); opacity: 1; }
+  .opt-btn.selected .opt-label { color: var(--ink); opacity: 0.7; }
+
+  .divider { height: 1px; background: var(--border); margin: 2px 0 6px; }
 
   /* ── RESULT BLOCK ── */
   .result-block {
     border-radius: var(--radius);
     padding: 20px;
     margin-top: 16px;
-    transition: background .3s, border-color .3s;
-    border: 1.5px solid transparent;
+    transition: all .3s;
+    border: 1px solid transparent;
     position: relative;
     overflow: hidden;
   }
+
   .result-block::before {
     content: '';
     position: absolute;
-    top: -40px; right: -40px;
-    width: 120px; height: 120px;
+    top: -60px; right: -60px;
+    width: 160px; height: 160px;
     border-radius: 50%;
-    opacity: .08;
+    opacity: .12;
     background: currentColor;
     pointer-events: none;
+    filter: blur(20px);
   }
-  .result-block.win   { background: var(--win-lt); border-color: var(--win-md); color: var(--win); }
-  .result-block.worry { background: var(--worry-lt); border-color: var(--worry-md); color: var(--worry); }
-  .result-block.woe   { background: var(--woe-lt); border-color: var(--woe-md); color: var(--woe); }
 
-  .result-row {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    margin-bottom: 10px;
-  }
+  .result-block.win   { background: var(--win-lt); border-color: rgba(29,184,158,0.3); color: var(--win-md); }
+  .result-block.worry { background: var(--worry-lt); border-color: rgba(245,158,11,0.3); color: var(--worry-md); }
+  .result-block.woe   { background: var(--woe-lt); border-color: rgba(239,68,68,0.3); color: var(--woe-md); }
+
+  .result-row { display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+
   .result-score {
-    font-family: 'DM Serif Display', serif;
-    font-size: 52px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 54px;
+    font-weight: 800;
     line-height: 1;
-    letter-spacing: -2px;
+    letter-spacing: -3px;
   }
+
   .result-zone-pill {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     padding: 5px 14px;
     border-radius: 100px;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: 0.5px;
-    color: #fff;
+    letter-spacing: 0.8px;
+    color: var(--bg-deep);
   }
-  .win   .result-zone-pill { background: var(--win); }
-  .worry .result-zone-pill { background: var(--worry); }
-  .woe   .result-zone-pill { background: var(--woe); }
 
-  .result-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; opacity: .7; margin-bottom: 4px; }
-  .result-msg { font-size: 13px; color: var(--ink); line-height: 1.55; opacity: .85; }
+  .win   .result-zone-pill { background: var(--win-md); }
+  .worry .result-zone-pill { background: var(--worry-md); }
+  .woe   .result-zone-pill { background: var(--woe-md); }
+
+  .result-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; opacity: .6; margin-bottom: 4px; }
+  .result-msg { font-size: 12.5px; color: var(--ink); line-height: 1.6; opacity: .75; }
 
   .formula-row {
     display: flex;
-    gap: 6px;
+    gap: 5px;
     flex-wrap: wrap;
     align-items: center;
     margin-top: 12px;
     padding-top: 12px;
     border-top: 1px dashed;
-    border-color: inherit;
-    opacity: .6;
+    border-color: currentColor;
+    opacity: .5;
   }
+
   .formula-chip {
-    background: rgba(0,0,0,.06);
+    background: rgba(255,255,255,0.08);
     border-radius: 6px;
     padding: 3px 8px;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
     font-weight: 500;
+    color: var(--ink);
   }
 
   /* ── ACTION BUTTONS ── */
-  .action-row { display: flex; gap: 8px; margin-top: 16px; }
+  .action-row { display: flex; gap: 8px; margin-top: 14px; }
+
   .btn-main {
     flex: 1;
     padding: 11px;
-    background: var(--ink);
+    background: linear-gradient(135deg, rgba(99,60,180,0.8) 0%, rgba(30,100,200,0.8) 100%);
+    border: 1px solid rgba(120,100,220,0.4);
     color: #fff;
-    border: none;
     border-radius: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
+    font-family: 'Outfit', sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
     cursor: pointer;
-    transition: all .15s;
+    transition: all .18s;
     display: flex; align-items: center; justify-content: center; gap: 6px;
+    letter-spacing: 0.2px;
   }
-  .btn-main:hover { background: #1f2937; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,.15); }
+  .btn-main:hover {
+    background: linear-gradient(135deg, rgba(110,70,200,0.9) 0%, rgba(40,120,220,0.9) 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(80,60,180,0.35);
+  }
+
   .btn-ghost {
     padding: 11px 16px;
-    background: transparent;
+    background: rgba(255,255,255,0.04);
     color: var(--muted);
-    border: 1.5px solid var(--border);
+    border: 1px solid var(--border-md);
     border-radius: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
+    font-family: 'Outfit', sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
     cursor: pointer;
     transition: all .15s;
     display: flex; align-items: center; gap: 6px;
   }
-  .btn-ghost:hover { border-color: var(--ink); color: var(--ink); }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.25); color: var(--ink); background: rgba(255,255,255,0.07); }
 
   /* ── CHART PANEL ── */
   .chart-panel { display: flex; flex-direction: column; gap: 16px; }
-
   .chart-card { padding: 28px; }
 
   canvas#diceChart {
@@ -361,6 +450,7 @@
     gap: 10px;
     margin-top: 4px;
   }
+
   .breakdown-item {
     background: var(--surface);
     border-radius: 10px;
@@ -369,132 +459,121 @@
     border: 1px solid var(--border);
     transition: all .15s;
   }
-  .breakdown-item:hover { border-color: var(--ink); }
+  .breakdown-item:hover { border-color: rgba(255,255,255,0.2); background: var(--surface-md); }
+
   .bd-key {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
+    font-size: 10px;
+    font-weight: 600;
     color: var(--muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
+
   .bd-val {
-    font-family: 'DM Serif Display', serif;
+    font-family: 'Outfit', sans-serif;
     font-size: 28px;
+    font-weight: 800;
     color: var(--ink);
     line-height: 1.1;
     margin: 4px 0 2px;
+    letter-spacing: -1px;
   }
-  .bd-label {
-    font-size: 10px;
-    color: var(--muted);
-    line-height: 1.3;
-  }
+
+  .bd-label { font-size: 10px; color: var(--muted); line-height: 1.3; }
 
   /* ── GUIDE VIEW ── */
   .guide-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-bottom: 28px;
+    gap: 16px;
+    margin-bottom: 24px;
   }
+
   .guide-card {
-    background: var(--white);
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 24px;
+    padding: 22px;
     box-shadow: var(--shadow);
   }
+
   .guide-card-title {
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.7px;
-    margin-bottom: 14px;
-  }
-  .guide-card.win .guide-card-title { color: var(--win); }
-  .guide-card.worry .guide-card-title { color: var(--worry); }
-  .guide-card.woe .guide-card-title { color: var(--woe); }
-
-  .zone-range {
-    font-family: 'DM Serif Display', serif;
-    font-size: 32px;
-    letter-spacing: -1px;
-    display: block;
-    margin-bottom: 6px;
-  }
-  .guide-card.win .zone-range { color: var(--win); }
-  .guide-card.worry .zone-range { color: var(--worry); }
-  .guide-card.woe .zone-range { color: var(--woe); }
-
-  .zone-diag {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.55;
-    margin-bottom: 14px;
-  }
-  .action-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-  }
-  .action-list li {
-    display: flex;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--ink);
-    line-height: 1.45;
-  }
-  .action-list li::before {
-    content: '→';
-    flex-shrink: 0;
-    font-size: 12px;
-    margin-top: 1px;
-  }
-  .guide-card.win .action-list li::before { color: var(--win); }
-  .guide-card.worry .action-list li::before { color: var(--worry); }
-  .guide-card.woe .action-list li::before { color: var(--woe); }
-
-  .factors-section { margin-top: 8px; }
-  .section-label {
     font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
+    letter-spacing: 0.9px;
+    margin-bottom: 12px;
+  }
+  .guide-card.win .guide-card-title   { color: var(--win-md); }
+  .guide-card.worry .guide-card-title { color: var(--worry-md); }
+  .guide-card.woe .guide-card-title   { color: var(--woe-md); }
+
+  .zone-range {
+    font-family: 'Outfit', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .guide-card.win .zone-range   { color: var(--win-md); }
+  .guide-card.worry .zone-range { color: var(--worry-md); }
+  .guide-card.woe .zone-range   { color: var(--woe-md); }
+
+  .zone-diag { font-size: 12.5px; color: var(--muted); line-height: 1.6; margin-bottom: 14px; }
+
+  .action-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+  .action-list li { display: flex; gap: 8px; font-size: 12.5px; color: var(--ink); line-height: 1.45; opacity: .8; }
+  .action-list li::before { content: '→'; flex-shrink: 0; font-size: 12px; margin-top: 1px; }
+  .guide-card.win .action-list li::before   { color: var(--win-md); }
+  .guide-card.worry .action-list li::before { color: var(--worry-md); }
+  .guide-card.woe .action-list li::before   { color: var(--woe-md); }
+
+  .factors-section { margin-top: 8px; }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     color: var(--muted);
     margin-bottom: 14px;
     padding-bottom: 8px;
     border-bottom: 1px solid var(--border);
   }
+
   .factor-guide-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
+    gap: 12px;
   }
+
   .fguide-card {
-    background: var(--white);
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 18px;
     box-shadow: var(--shadow);
   }
-  .fguide-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
+
+  .fguide-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+
   .fguide-tag {
     width: 30px; height: 24px;
-    background: var(--ink);
-    color: #fff;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--win-md);
     border-radius: 7px;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
+    font-weight: 600;
     display: flex; align-items: center; justify-content: center;
   }
-  .fguide-name { font-size: 14px; font-weight: 600; }
+
+  .fguide-name { font-size: 13.5px; font-weight: 700; color: var(--ink); }
   .fguide-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
 
   .scale-row {
@@ -502,30 +581,30 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 4px;
   }
+
   .scale-item {
     border-radius: 7px;
     padding: 7px 6px;
     text-align: center;
     border: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
   }
-  .scale-item .si-num {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 14px;
-    font-weight: 700;
-    display: block;
-  }
+
+  .scale-item .si-num { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 700; display: block; }
   .scale-item .si-lbl { font-size: 9px; color: var(--muted); display: block; margin-top: 2px; line-height: 1.2; }
-  .scale-item[data-s="1"] { background: #e8f5f3; border-color: var(--win-md); }
-  .scale-item[data-s="1"] .si-num { color: var(--win); }
-  .scale-item[data-s="2"] { background: #eff6ff; border-color: #93c5fd; }
-  .scale-item[data-s="2"] .si-num { color: #2563eb; }
-  .scale-item[data-s="3"] { background: #fef6e4; border-color: var(--worry-md); }
-  .scale-item[data-s="3"] .si-num { color: var(--worry); }
-  .scale-item[data-s="4"] { background: #fdecea; border-color: var(--woe-md); }
-  .scale-item[data-s="4"] .si-num { color: var(--woe); }
+
+  .scale-item[data-s="1"] { border-color: rgba(29,184,158,0.3); }
+  .scale-item[data-s="1"] .si-num { color: var(--win-md); }
+  .scale-item[data-s="2"] { border-color: rgba(59,130,246,0.3); }
+  .scale-item[data-s="2"] .si-num { color: #60a5fa; }
+  .scale-item[data-s="3"] { border-color: rgba(245,158,11,0.3); }
+  .scale-item[data-s="3"] .si-num { color: var(--worry-md); }
+  .scale-item[data-s="4"] { border-color: rgba(239,68,68,0.3); }
+  .scale-item[data-s="4"] .si-num { color: var(--woe-md); }
 
   .formula-section {
-    background: var(--white);
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 20px 24px;
@@ -537,24 +616,21 @@
     flex-wrap: wrap;
     gap: 12px;
   }
+
   .formula-big {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 500;
-    color: var(--ink);
+    color: var(--win-md);
     letter-spacing: -0.3px;
   }
-  .formula-note {
-    font-size: 12px;
-    color: var(--muted);
-    max-width: 340px;
-    line-height: 1.5;
-  }
+
+  .formula-note { font-size: 12px; color: var(--muted); max-width: 340px; line-height: 1.55; }
 
   .source-badge {
     font-size: 11px;
     color: var(--muted);
-    background: var(--surface);
+    background: rgba(255,255,255,0.03);
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 6px 12px;
@@ -568,18 +644,20 @@
   .toast {
     position: fixed;
     bottom: 28px; right: 28px;
-    background: var(--ink);
-    color: #fff;
+    background: rgba(14,18,32,0.95);
+    border: 1px solid rgba(29,184,158,0.3);
+    color: var(--win-md);
     padding: 12px 20px;
     border-radius: 12px;
-    font-size: 14px;
-    font-weight: 500;
-    box-shadow: 0 8px 24px rgba(0,0,0,.2);
+    font-size: 13.5px;
+    font-weight: 600;
+    box-shadow: 0 8px 32px rgba(0,0,0,.4);
     transform: translateY(80px);
     opacity: 0;
     transition: all .3s cubic-bezier(.34,1.56,.64,1);
     z-index: 999;
     pointer-events: none;
+    backdrop-filter: blur(16px);
   }
   .toast.show { transform: translateY(0); opacity: 1; }
 
@@ -598,15 +676,18 @@
 <!-- HEADER -->
 <header class="header">
   <div class="header-brand">
-    <div class="header-logo">DM</div>
+    <div class="header-logo">
+      <img src="logo.png" alt="Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <span class="header-logo-fallback" style="display:none">DM</span>
+    </div>
     <div>
       <span class="header-title">DICE Model</span>
       <span class="header-sub">Ferramenta BCG · EESC-USP</span>
     </div>
   </div>
   <nav class="header-nav">
-    <button class="tab-btn active" onclick="switchTab('analyzer')">Analisador</button>
-    <button class="tab-btn" onclick="switchTab('guide')">Guia de Uso</button>
+    <button class="tab-btn active" onclick="switchTab('analyzer', event)">Analisador</button>
+    <button class="tab-btn" onclick="switchTab('guide', event)">Guia de Uso</button>
   </nav>
 </header>
 
@@ -635,20 +716,16 @@
               </div>
               <div class="factor-options" data-factor="D">
                 <button class="opt-btn selected" data-val="1" onclick="select(this)">
-                  <span class="opt-num">1</span>
-                  <span class="opt-label">&lt; 2 meses</span>
+                  <span class="opt-num">1</span><span class="opt-label">&lt; 2 meses</span>
                 </button>
                 <button class="opt-btn" data-val="2" onclick="select(this)">
-                  <span class="opt-num">2</span>
-                  <span class="opt-label">2–4 meses</span>
+                  <span class="opt-num">2</span><span class="opt-label">2–4 meses</span>
                 </button>
                 <button class="opt-btn" data-val="3" onclick="select(this)">
-                  <span class="opt-num">3</span>
-                  <span class="opt-label">4–8 meses</span>
+                  <span class="opt-num">3</span><span class="opt-label">4–8 meses</span>
                 </button>
                 <button class="opt-btn" data-val="4" onclick="select(this)">
-                  <span class="opt-num">4</span>
-                  <span class="opt-label">&gt; 8 meses</span>
+                  <span class="opt-num">4</span><span class="opt-label">&gt; 8 meses</span>
                 </button>
               </div>
             </div>
@@ -664,20 +741,16 @@
               </div>
               <div class="factor-options" data-factor="I">
                 <button class="opt-btn selected" data-val="1" onclick="select(this)">
-                  <span class="opt-num">1</span>
-                  <span class="opt-label">Muito boa</span>
+                  <span class="opt-num">1</span><span class="opt-label">Muito boa</span>
                 </button>
                 <button class="opt-btn" data-val="2" onclick="select(this)">
-                  <span class="opt-num">2</span>
-                  <span class="opt-label">Boa</span>
+                  <span class="opt-num">2</span><span class="opt-label">Boa</span>
                 </button>
                 <button class="opt-btn" data-val="3" onclick="select(this)">
-                  <span class="opt-num">3</span>
-                  <span class="opt-label">Média</span>
+                  <span class="opt-num">3</span><span class="opt-label">Média</span>
                 </button>
                 <button class="opt-btn" data-val="4" onclick="select(this)">
-                  <span class="opt-num">4</span>
-                  <span class="opt-label">Fraca</span>
+                  <span class="opt-num">4</span><span class="opt-label">Fraca</span>
                 </button>
               </div>
             </div>
@@ -693,20 +766,16 @@
               </div>
               <div class="factor-options" data-factor="C1">
                 <button class="opt-btn selected" data-val="1" onclick="select(this)">
-                  <span class="opt-num">1</span>
-                  <span class="opt-label">Muito forte</span>
+                  <span class="opt-num">1</span><span class="opt-label">Muito forte</span>
                 </button>
                 <button class="opt-btn" data-val="2" onclick="select(this)">
-                  <span class="opt-num">2</span>
-                  <span class="opt-label">Favorável</span>
+                  <span class="opt-num">2</span><span class="opt-label">Favorável</span>
                 </button>
                 <button class="opt-btn" data-val="3" onclick="select(this)">
-                  <span class="opt-num">3</span>
-                  <span class="opt-label">Neutro</span>
+                  <span class="opt-num">3</span><span class="opt-label">Neutro</span>
                 </button>
                 <button class="opt-btn" data-val="4" onclick="select(this)">
-                  <span class="opt-num">4</span>
-                  <span class="opt-label">Relutante</span>
+                  <span class="opt-num">4</span><span class="opt-label">Relutante</span>
                 </button>
               </div>
             </div>
@@ -721,20 +790,16 @@
               </div>
               <div class="factor-options" data-factor="C2">
                 <button class="opt-btn selected" data-val="1" onclick="select(this)">
-                  <span class="opt-num">1</span>
-                  <span class="opt-label">Ansiosos</span>
+                  <span class="opt-num">1</span><span class="opt-label">Ansiosos</span>
                 </button>
                 <button class="opt-btn" data-val="2" onclick="select(this)">
-                  <span class="opt-num">2</span>
-                  <span class="opt-label">Dispostos</span>
+                  <span class="opt-num">2</span><span class="opt-label">Dispostos</span>
                 </button>
                 <button class="opt-btn" data-val="3" onclick="select(this)">
-                  <span class="opt-num">3</span>
-                  <span class="opt-label">Relutantes</span>
+                  <span class="opt-num">3</span><span class="opt-label">Relutantes</span>
                 </button>
                 <button class="opt-btn" data-val="4" onclick="select(this)">
-                  <span class="opt-num">4</span>
-                  <span class="opt-label">Fort. relut.</span>
+                  <span class="opt-num">4</span><span class="opt-label">Fort. relut.</span>
                 </button>
               </div>
             </div>
@@ -749,20 +814,16 @@
               </div>
               <div class="factor-options" data-factor="E">
                 <button class="opt-btn selected" data-val="1" onclick="select(this)">
-                  <span class="opt-num">1</span>
-                  <span class="opt-label">&lt; 10%</span>
+                  <span class="opt-num">1</span><span class="opt-label">&lt; 10%</span>
                 </button>
                 <button class="opt-btn" data-val="2" onclick="select(this)">
-                  <span class="opt-num">2</span>
-                  <span class="opt-label">10–20%</span>
+                  <span class="opt-num">2</span><span class="opt-label">10–20%</span>
                 </button>
                 <button class="opt-btn" data-val="3" onclick="select(this)">
-                  <span class="opt-num">3</span>
-                  <span class="opt-label">20–40%</span>
+                  <span class="opt-num">3</span><span class="opt-label">20–40%</span>
                 </button>
                 <button class="opt-btn" data-val="4" onclick="select(this)">
-                  <span class="opt-num">4</span>
-                  <span class="opt-label">&gt; 40%</span>
+                  <span class="opt-num">4</span><span class="opt-label">&gt; 40%</span>
                 </button>
               </div>
             </div>
@@ -781,16 +842,16 @@
             </div>
             <div class="formula-row" id="formulaRow">
               <span class="formula-chip" id="fD">D=1</span>
-              <span style="opacity:.5;font-size:12px">+</span>
+              <span style="opacity:.4;font-size:12px;color:var(--muted)">+</span>
               <span class="formula-chip" id="fI">2×I=2</span>
-              <span style="opacity:.5;font-size:12px">+</span>
+              <span style="opacity:.4;font-size:12px;color:var(--muted)">+</span>
               <span class="formula-chip" id="fC1">2×C1=2</span>
-              <span style="opacity:.5;font-size:12px">+</span>
+              <span style="opacity:.4;font-size:12px;color:var(--muted)">+</span>
               <span class="formula-chip" id="fC2">C2=1</span>
-              <span style="opacity:.5;font-size:12px">+</span>
+              <span style="opacity:.4;font-size:12px;color:var(--muted)">+</span>
               <span class="formula-chip" id="fE">E=1</span>
-              <span style="opacity:.5;font-size:12px">=</span>
-              <span class="formula-chip" id="fTotal" style="font-weight:700;">7</span>
+              <span style="opacity:.4;font-size:12px;color:var(--muted)">=</span>
+              <span class="formula-chip" id="fTotal" style="font-weight:700;color:var(--win-md)">7</span>
             </div>
           </div>
 
@@ -897,10 +958,7 @@
         <div class="fguide-card">
           <div class="fguide-header">
             <div class="fguide-tag">D</div>
-            <div>
-              <div class="fguide-name">Duração</div>
-              <div class="fguide-sub">Intervalo entre marcos de aprendizagem</div>
-            </div>
+            <div><div class="fguide-name">Duração</div><div class="fguide-sub">Intervalo entre marcos de aprendizagem</div></div>
           </div>
           <div class="scale-row">
             <div class="scale-item" data-s="1"><span class="si-num">1</span><span class="si-lbl">&lt; 2 meses</span></div>
@@ -913,10 +971,7 @@
         <div class="fguide-card">
           <div class="fguide-header">
             <div class="fguide-tag">I</div>
-            <div>
-              <div class="fguide-name">Integridade da equipe</div>
-              <div class="fguide-sub">Habilidades e configuração do time <strong>× 2</strong></div>
-            </div>
+            <div><div class="fguide-name">Integridade da equipe</div><div class="fguide-sub">Habilidades e configuração do time <strong>× 2</strong></div></div>
           </div>
           <div class="scale-row">
             <div class="scale-item" data-s="1"><span class="si-num">1</span><span class="si-lbl">Muito boa</span></div>
@@ -929,10 +984,7 @@
         <div class="fguide-card">
           <div class="fguide-header">
             <div class="fguide-tag">C1</div>
-            <div>
-              <div class="fguide-name">Compromisso da alta gestão</div>
-              <div class="fguide-sub">Time sênior / patrocinadores <strong>× 2</strong></div>
-            </div>
+            <div><div class="fguide-name">Compromisso da alta gestão</div><div class="fguide-sub">Time sênior / patrocinadores <strong>× 2</strong></div></div>
           </div>
           <div class="scale-row">
             <div class="scale-item" data-s="1"><span class="si-num">1</span><span class="si-lbl">Muito forte</span></div>
@@ -945,10 +997,7 @@
         <div class="fguide-card">
           <div class="fguide-header">
             <div class="fguide-tag">C2</div>
-            <div>
-              <div class="fguide-name">Compromisso dos impactados</div>
-              <div class="fguide-sub">Pessoas submetidas à mudança</div>
-            </div>
+            <div><div class="fguide-name">Compromisso dos impactados</div><div class="fguide-sub">Pessoas submetidas à mudança</div></div>
           </div>
           <div class="scale-row">
             <div class="scale-item" data-s="1"><span class="si-num">1</span><span class="si-lbl">Ansiosos</span></div>
@@ -961,10 +1010,7 @@
         <div class="fguide-card" style="grid-column: span 2;">
           <div class="fguide-header">
             <div class="fguide-tag">E</div>
-            <div>
-              <div class="fguide-name">Esforço adicional exigido</div>
-              <div class="fguide-sub">Acima da carga normal de trabalho dos impactados</div>
-            </div>
+            <div><div class="fguide-name">Esforço adicional exigido</div><div class="fguide-sub">Acima da carga normal de trabalho dos impactados</div></div>
           </div>
           <div class="scale-row">
             <div class="scale-item" data-s="1"><span class="si-num">1</span><span class="si-lbl">&lt; 10%</span></div>
@@ -1005,7 +1051,6 @@
 // ── STATE ──
 const state = { D: 1, I: 1, C1: 1, C2: 1, E: 1 };
 
-// ── SELECT HANDLER ──
 function select(btn) {
   const group = btn.closest('[data-factor]');
   const factor = group.dataset.factor;
@@ -1015,40 +1060,26 @@ function select(btn) {
   update();
 }
 
-// ── SCORE ──
-function calcScore() {
-  return state.D + 2*state.I + 2*state.C1 + state.C2 + state.E;
-}
-function zone(s) {
-  if (s <= 13) return 'win';
-  if (s <= 17) return 'worry';
-  return 'woe';
-}
-function zoneLabel(s) {
-  if (s <= 13) return 'WIN';
-  if (s <= 17) return 'WORRY';
-  return 'WOE';
-}
+function calcScore() { return state.D + 2*state.I + 2*state.C1 + state.C2 + state.E; }
+function zone(s) { return s <= 13 ? 'win' : s <= 17 ? 'worry' : 'woe'; }
+function zoneLabel(s) { return s <= 13 ? 'WIN' : s <= 17 ? 'WORRY' : 'WOE'; }
 function msg(z) {
   if (z === 'win')   return 'Alta probabilidade de sucesso. Mantenha a gestão do projeto como está.';
   if (z === 'worry') return 'Zona de atenção. Identifique os fatores críticos e atue para reduzir o escore para 13 ou abaixo.';
   return 'Zona crítica. Alta probabilidade de fracasso. Só prossiga com ações corretivas definitivas.';
 }
 
-// ── UPDATE UI ──
 function update() {
   const s = calcScore();
   const z = zone(s);
   const zl = zoneLabel(s);
 
-  // Result block
   const rb = document.getElementById('resultBlock');
   rb.className = 'result-block ' + z;
   document.getElementById('scoreNum').textContent = s;
   document.getElementById('zonePill').textContent = '● ' + zl;
   document.getElementById('resultMsg').textContent = msg(z);
 
-  // Formula chips
   document.getElementById('fD').textContent   = `D=${state.D}`;
   document.getElementById('fI').textContent   = `2×I=${2*state.I}`;
   document.getElementById('fC1').textContent  = `2×C1=${2*state.C1}`;
@@ -1056,7 +1087,6 @@ function update() {
   document.getElementById('fE').textContent   = `E=${state.E}`;
   document.getElementById('fTotal').textContent = s;
 
-  // Breakdown
   document.getElementById('bdD').textContent  = state.D;
   document.getElementById('bdI').textContent  = 2*state.I;
   document.getElementById('bdC1').textContent = 2*state.C1;
@@ -1066,219 +1096,155 @@ function update() {
   drawChart(s);
 }
 
-// ── CHART — pixel-perfect replication of the Python matplotlib version ──
+// ── CHART ──
 const canvas = document.getElementById('diceChart');
 const ctx = canvas.getContext('2d');
 
-// Colors matching Python
-const C_WIN   = '#1a7a6e';
-const C_WORRY = '#d8a300';
-const C_WOE   = '#c0392b';
-const C_WIN_DK   = '#146058';
-const C_WORRY_DK = '#a86e00';
-const C_WOE_DK   = '#8b1f10';
+const C_WIN    = '#1db89e';
+const C_WORRY  = '#d4900a';
+const C_WOE    = '#c0392b';
+const C_WIN_DK    = '#0e8f7c';
+const C_WORRY_DK  = '#a86e00';
+const C_WOE_DK    = '#8b1f10';
 
 function drawChart(score) {
-  const W = canvas.width;
-  const H = canvas.height;
+  const W = canvas.width, H = canvas.height;
   ctx.clearRect(0, 0, W, H);
 
-  // ── coordinate system ──
-  // Data: x in [7,28], y in [0,5]
-  // Canvas margins
   const ML = 120, MR = 20, MT = 50, MB = 50;
-  const PW = W - ML - MR;
-  const PH = H - MT - MB;
+  const PW = W - ML - MR, PH = H - MT - MB;
 
-  function px(dataX) { return ML + (dataX - 7) / 21 * PW; }
-  function py(dataY) { return MT + (1 - dataY / 5) * PH; }
+  function px(x) { return ML + (x - 7) / 21 * PW; }
+  function py(y) { return MT + (1 - y / 5) * PH; }
 
-  // ── Background ──
-  ctx.fillStyle = '#f9fafb';
+  // Dark bg
+  ctx.fillStyle = '#0d1120';
   ctx.fillRect(0, 0, W, H);
 
-  // White plot area
-  ctx.fillStyle = '#ffffff';
+  // Slight gradient on plot area
+  const bgGrad = ctx.createLinearGradient(ML, MT, ML + PW, MT + PH);
+  bgGrad.addColorStop(0, 'rgba(10,15,35,1)');
+  bgGrad.addColorStop(1, 'rgba(8,10,25,1)');
+  ctx.fillStyle = bgGrad;
   ctx.fillRect(ML, MT, PW, PH);
 
-  // ── Draw zone polygons (matching Python exactly) ──
-  // WIN polygon: (7,5),(14,5),(14,4),(9,4),(7,5)
-  ctx.beginPath();
-  ctx.moveTo(px(7),  py(5));
-  ctx.lineTo(px(14), py(5));
-  ctx.lineTo(px(14), py(4));
-  ctx.lineTo(px(9),  py(4));
-  ctx.closePath();
-  ctx.fillStyle = C_WIN;
-  ctx.globalAlpha = 0.95;
-  ctx.fill();
+  // Zone polygons
+  ctx.globalAlpha = 0.7;
 
-  // WORRY polygon: (14,5),(17,5),(17,1.75),(14,4)
   ctx.beginPath();
-  ctx.moveTo(px(14), py(5));
-  ctx.lineTo(px(17), py(5));
-  ctx.lineTo(px(17), py(1.75));
-  ctx.lineTo(px(14), py(4));
+  ctx.moveTo(px(7), py(5)); ctx.lineTo(px(14), py(5));
+  ctx.lineTo(px(14), py(4)); ctx.lineTo(px(9), py(4));
   ctx.closePath();
-  ctx.fillStyle = C_WORRY;
-  ctx.globalAlpha = 0.95;
-  ctx.fill();
+  ctx.fillStyle = C_WIN; ctx.fill();
 
-  // WOE polygon: (17,5),(18,5),(21,3),(25,3),(28,1),(18,1),(17,1.75)
   ctx.beginPath();
-  ctx.moveTo(px(17), py(5));
-  ctx.lineTo(px(18), py(5));
-  ctx.lineTo(px(21), py(3));
-  ctx.lineTo(px(25), py(3));
-  ctx.lineTo(px(28), py(1));
-  ctx.lineTo(px(18), py(1));
+  ctx.moveTo(px(14), py(5)); ctx.lineTo(px(17), py(5));
+  ctx.lineTo(px(17), py(1.75)); ctx.lineTo(px(14), py(4));
+  ctx.closePath();
+  ctx.fillStyle = C_WORRY; ctx.fill();
+
+  ctx.beginPath();
+  ctx.moveTo(px(17), py(5)); ctx.lineTo(px(18), py(5));
+  ctx.lineTo(px(21), py(3)); ctx.lineTo(px(25), py(3));
+  ctx.lineTo(px(28), py(1)); ctx.lineTo(px(18), py(1));
   ctx.lineTo(px(17), py(1.75));
   ctx.closePath();
-  ctx.fillStyle = C_WOE;
-  ctx.globalAlpha = 0.90;
-  ctx.fill();
+  ctx.fillStyle = C_WOE; ctx.globalAlpha = 0.65; ctx.fill();
 
   ctx.globalAlpha = 1.0;
 
-  // ── Bottom bars WIN / WORRY / WOE ──
+  // Bottom bars
   const barH = PH * (0.6 / 5);
   const barY = py(0) - barH;
 
-  ctx.fillStyle = C_WIN;
-  ctx.fillRect(px(7), barY, px(14)-px(7), barH);
-  ctx.fillStyle = C_WORRY;
-  ctx.fillRect(px(14), barY, px(17)-px(14), barH);
-  ctx.fillStyle = C_WOE;
-  ctx.fillRect(px(17), barY, px(28)-px(17), barH);
+  ctx.fillStyle = C_WIN;   ctx.fillRect(px(7),  barY, px(14)-px(7),  barH);
+  ctx.fillStyle = C_WORRY; ctx.fillRect(px(14), barY, px(17)-px(14), barH);
+  ctx.fillStyle = C_WOE;   ctx.fillRect(px(17), barY, px(28)-px(17), barH);
 
-  // Bar labels
-  ctx.font = 'bold 12px "IBM Plex Mono", monospace';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 11px "IBM Plex Mono", monospace';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#ffffff';
   ctx.fillText('WIN',   px(10.5), barY + barH/2);
   ctx.fillText('WORRY', px(15.5), barY + barH/2);
   ctx.fillText('WOE',   px(22.5), barY + barH/2);
 
-  // ── Divider lines (dashed at 14, solid at 17) ──
+  // Dividers
   ctx.save();
-  ctx.strokeStyle = 'rgba(0,0,0,0.55)';
-  ctx.lineWidth = 1.2;
+  ctx.strokeStyle = 'rgba(255,255,255,0.35)'; ctx.lineWidth = 1;
   ctx.setLineDash([5,5]);
-  ctx.beginPath();
-  ctx.moveTo(px(14), py(5));
-  ctx.lineTo(px(14), py(0));
-  ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(px(14), py(5)); ctx.lineTo(px(14), py(0)); ctx.stroke();
   ctx.setLineDash([]);
-  ctx.strokeStyle = 'rgba(0,0,0,0.25)';
-  ctx.beginPath();
-  ctx.moveTo(px(17), py(5));
-  ctx.lineTo(px(17), py(0));
-  ctx.stroke();
+  ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+  ctx.beginPath(); ctx.moveTo(px(17), py(5)); ctx.lineTo(px(17), py(0)); ctx.stroke();
   ctx.restore();
 
-  // ── Y-axis ticks & grid ──
-  ctx.font = '11px "DM Sans", sans-serif';
-  ctx.textAlign = 'right';
-  ctx.textBaseline = 'middle';
-  ctx.fillStyle = '#6b7280';
+  // Y-axis
+  ctx.font = '11px "Outfit", sans-serif'; ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+  ctx.fillStyle = '#8892aa';
   for (let y = 0; y <= 5; y++) {
     const yy = py(y);
     ctx.fillText(y, ML - 10, yy);
     ctx.save();
-    ctx.strokeStyle = 'rgba(0,0,0,0.06)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(ML, yy);
-    ctx.lineTo(ML + PW, yy);
-    ctx.stroke();
+    ctx.strokeStyle = 'rgba(255,255,255,0.05)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(ML, yy); ctx.lineTo(ML + PW, yy); ctx.stroke();
     ctx.restore();
   }
 
-  // ── X-axis ticks ──
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'top';
-  ctx.fillStyle = '#6b7280';
-  ctx.font = '11px "IBM Plex Mono", monospace';
+  // X-axis
+  ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+  ctx.fillStyle = '#8892aa'; ctx.font = '11px "IBM Plex Mono", monospace';
   for (let x = 7; x <= 28; x++) {
-    if ((x - 7) % 1 === 0) {
-      const xx = px(x);
-      ctx.fillText(x, xx, py(0) + 6);
-      ctx.save();
-      ctx.strokeStyle = 'rgba(0,0,0,0.1)';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(xx, py(0));
-      ctx.lineTo(xx, py(0) + 4);
-      ctx.stroke();
-      ctx.restore();
-    }
+    const xx = px(x);
+    ctx.fillText(x, xx, py(0) + 6);
+    ctx.save();
+    ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(xx, py(0)); ctx.lineTo(xx, py(0) + 4); ctx.stroke();
+    ctx.restore();
   }
 
-  // ── Zone labels top ──
-  ctx.font = 'bold 11px "DM Sans", sans-serif';
-  ctx.textBaseline = 'bottom';
+  // Zone labels top
+  ctx.font = 'bold 11px "Outfit", sans-serif'; ctx.textBaseline = 'bottom';
+  ctx.fillStyle = C_WIN;    ctx.textAlign = 'center'; ctx.fillText('SUCESSO',     px(10.8), MT - 8);
+  ctx.fillStyle = C_WORRY;  ctx.fillText('ATENÇÃO',    px(15.5), MT - 8);
+  ctx.fillStyle = C_WOE;    ctx.fillText('PREOCUPAÇÃO', px(22.4), MT - 8);
 
-  ctx.fillStyle = C_WIN_DK;
-  ctx.textAlign = 'center';
-  ctx.fillText('SUCESSO', px(10.8), MT - 8);
-
-  ctx.fillStyle = C_WORRY_DK;
-  ctx.fillText('ATENÇÃO', px(15.5), MT - 8);
-
-  ctx.fillStyle = C_WOE_DK;
-  ctx.fillText('PREOCUPAÇÃO', px(22.4), MT - 8);
-
-  // ── Left side labels ──
-  ctx.save();
-  ctx.textAlign = 'right';
-  ctx.textBaseline = 'middle';
-  ctx.font = 'bold 10px "DM Sans", sans-serif';
-  ctx.fillStyle = C_WIN_DK;
-  const linesTop = ['ALTA', 'PROBABILIDADE', 'DE SUCESSO'];
-  linesTop.forEach((l, i) => ctx.fillText(l, ML - 14, py(4.1) + (i-1)*14));
-
-  ctx.fillStyle = C_WOE_DK;
-  const linesBot = ['BAIXA', 'PROBABILIDADE', 'DE SUCESSO'];
-  linesBot.forEach((l, i) => ctx.fillText(l, ML - 14, py(0.9) + (i-1)*14));
+  // Left labels
+  ctx.save(); ctx.textAlign = 'right'; ctx.textBaseline = 'middle'; ctx.font = 'bold 9px "Outfit", sans-serif';
+  ctx.fillStyle = 'rgba(29,184,158,0.7)';
+  ['ALTA','PROB.','SUCESSO'].forEach((l, i) => ctx.fillText(l, ML - 14, py(4.1) + (i-1)*13));
+  ctx.fillStyle = 'rgba(239,68,68,0.7)';
+  ['BAIXA','PROB.','SUCESSO'].forEach((l, i) => ctx.fillText(l, ML - 14, py(0.9) + (i-1)*13));
   ctx.restore();
 
-  // ── Score marker ──
+  // Score marker
   const xMarker = px(score);
   const yDot = py(0.32);
 
-  // Vertical line
+  // Glow
   ctx.save();
-  ctx.strokeStyle = 'rgba(0,0,0,0.65)';
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(xMarker, py(5));
-  ctx.lineTo(xMarker, py(0));
-  ctx.stroke();
+  ctx.shadowColor = 'rgba(255,255,255,0.6)';
+  ctx.shadowBlur = 12;
+  ctx.strokeStyle = 'rgba(255,255,255,0.8)'; ctx.lineWidth = 1.5;
+  ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(xMarker, py(5)); ctx.lineTo(xMarker, py(0)); ctx.stroke();
+  ctx.setLineDash([]);
   ctx.restore();
 
-  // Dot
   ctx.beginPath();
   ctx.arc(xMarker, yDot, 7, 0, Math.PI*2);
-  ctx.fillStyle = '#111827';
-  ctx.fill();
+  ctx.fillStyle = '#ffffff'; ctx.fill();
 
-  // Score label above dot
   ctx.font = 'bold 12px "IBM Plex Mono", monospace';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'bottom';
-  ctx.fillStyle = '#111827';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+  ctx.fillStyle = '#ffffff';
   ctx.fillText(score, xMarker, yDot - 10);
 
-  // Axes borders
+  // Border
   ctx.save();
-  ctx.strokeStyle = '#e5e7eb';
-  ctx.lineWidth = 1;
+  ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.lineWidth = 1;
   ctx.strokeRect(ML, MT, PW, PH);
   ctx.restore();
 }
 
-// ── RESET ──
 function resetAll() {
   document.querySelectorAll('.factor-options').forEach(group => {
     group.querySelectorAll('.opt-btn').forEach((btn, i) => {
@@ -1289,13 +1255,11 @@ function resetAll() {
   update();
 }
 
-// ── EXPORT PNG ──
 function savePNG() {
-  // Draw on offscreen canvas with white bg
   const off = document.createElement('canvas');
   off.width = canvas.width; off.height = canvas.height;
   const octx = off.getContext('2d');
-  octx.fillStyle = '#ffffff';
+  octx.fillStyle = '#0d1120';
   octx.fillRect(0, 0, off.width, off.height);
   octx.drawImage(canvas, 0, 0);
   const link = document.createElement('a');
@@ -1306,7 +1270,6 @@ function savePNG() {
   showToast('PNG exportado com sucesso!');
 }
 
-// ── TOAST ──
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -1314,15 +1277,13 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-// ── TAB SWITCH ──
-function switchTab(id) {
+function switchTab(id, event) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('view-' + id).classList.add('active');
-  event.target.classList.add('active');
+  if (event) event.target.classList.add('active');
 }
 
-// ── INIT ──
 update();
 </script>
 </body>
