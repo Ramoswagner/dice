@@ -360,6 +360,64 @@ canvas#diceChart  { width: 100%; height: auto; border-radius: 12px; background: 
 .woe  .guide-zone-label { color: var(--danger); }
 .zone-range           { font-size: 40px; font-weight: 800; letter-spacing: -2px; display: block; margin-bottom: 8px; }
 
+
+/* ══════════════════════════════════════════
+   GUIA DE USO — sistema completo
+   ══════════════════════════════════════════ */
+
+.guide-factors-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+.guide-factor-card  { background: rgba(11,30,51,0.6); backdrop-filter: blur(12px); border: 1px solid var(--border); border-radius: 20px; padding: 24px; transition: border-color .2s; }
+.guide-factor-card:hover { border-color: rgba(196,163,90,0.25); }
+.guide-factor-card.full  { grid-column: 1 / -1; }
+.guide-factor-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.guide-factor-badge  { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: rgba(196,163,90,0.12); border: 1px solid rgba(196,163,90,0.35); border-radius: 10px; font-family: var(--serif); font-size: 16px; font-weight: 700; color: var(--gold); flex-shrink: 0; }
+.guide-factor-title    { font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+.guide-factor-subtitle { font-size: 11px; color: var(--muted); font-weight: 400; margin-top: 2px; }
+.guide-factor-body     { font-size: 13px; color: var(--muted); line-height: 1.8; }
+.guide-factor-body strong { color: var(--ink); }
+.guide-factor-body em    { color: var(--gold-lt); font-style: normal; font-weight: 600; }
+.guide-lever      { display: flex; align-items: flex-start; gap: 10px; margin-top: 14px; padding: 10px 14px; background: rgba(196,163,90,0.06); border-left: 2px solid rgba(196,163,90,0.4); border-radius: 0 8px 8px 0; }
+.guide-lever-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+.guide-lever-text { font-size: 12px; color: var(--muted); line-height: 1.6; }
+.guide-lever-text strong { color: var(--gold-lt); }
+
+.guide-score-table           { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 12px; }
+.guide-score-table th        { text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--gold); padding: 8px 12px; border-bottom: 1px solid rgba(196,163,90,0.2); }
+.guide-score-table td        { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--muted); vertical-align: top; line-height: 1.6; }
+.guide-score-table tr:last-child td { border-bottom: none; }
+.guide-score-table td:first-child   { font-family: var(--serif); font-size: 18px; font-weight: 700; color: var(--ink); width: 40px; text-align: center; }
+.guide-score-table td.score-good    { color: var(--bright); }
+.guide-score-table td.score-warn    { color: var(--warning); }
+.guide-score-table td.score-bad     { color: var(--danger); }
+.guide-score-table tr:hover td      { background: rgba(255,255,255,0.02); }
+
+.guide-formula-box  { background: rgba(196,163,90,0.05); border: 1px solid rgba(196,163,90,0.2); border-radius: 16px; padding: 24px 32px; text-align: center; margin: 8px 0 24px; }
+.guide-formula-expr { font-family: var(--serif); font-size: 24px; font-weight: 600; color: var(--gold-lt); letter-spacing: .03em; line-height: 1.4; }
+.guide-formula-note { font-size: 12px; color: var(--muted); margin-top: 10px; line-height: 1.6; }
+
+.guide-uses-grid  { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 24px; }
+.guide-use-card   { background: rgba(11,30,51,0.6); backdrop-filter: blur(12px); border: 1px solid var(--border); border-radius: 16px; padding: 20px; transition: border-color .2s; }
+.guide-use-card:hover { border-color: rgba(196,163,90,0.25); }
+.guide-use-num    { font-family: var(--serif); font-size: 36px; font-weight: 700; color: rgba(196,163,90,0.2); line-height: 1; margin-bottom: 10px; }
+.guide-use-title  { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.guide-use-body   { font-size: 12px; color: var(--muted); line-height: 1.7; }
+
+.guide-pitfall-list  { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
+.guide-pitfall       { display: flex; gap: 14px; align-items: flex-start; background: rgba(242,92,92,0.04); border: 1px solid rgba(242,92,92,0.12); border-radius: 12px; padding: 14px 18px; }
+.guide-pitfall-icon  { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.guide-pitfall-title { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.guide-pitfall-text  { font-size: 12px; color: var(--muted); line-height: 1.65; }
+
+.guide-ref-box  { background: rgba(11,30,51,0.6); backdrop-filter: blur(12px); border: 1px solid rgba(196,163,90,0.2); border-radius: 20px; padding: 28px 32px; }
+.guide-ref-cite { font-family: var(--serif); font-size: 16px; color: var(--ink); line-height: 1.7; margin-bottom: 16px; }
+.guide-ref-meta { display: flex; gap: 24px; flex-wrap: wrap; padding-top: 16px; border-top: 1px solid var(--border); }
+.guide-ref-item  { display: flex; flex-direction: column; gap: 3px; }
+.guide-ref-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--gold); }
+.guide-ref-value { font-size: 13px; color: var(--muted); }
+.guide-ref-links { display: flex; gap: 20px; margin-top: 18px; flex-wrap: wrap; }
+.guide-ref-link  { font-size: 13px; color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(196,163,90,0.35); padding-bottom: 1px; transition: border-color .2s, color .2s; }
+.guide-ref-link:hover { color: var(--gold-lt); border-color: var(--gold-lt); }
+
 /* ── Responsive ── */
 @media (max-width: 900px) {
   .analyzer-grid,
