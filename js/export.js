@@ -171,18 +171,20 @@ function _buildFactorRows(factors, J) {
     const pct  = Math.round(f.comp / f.max * 100);
     const just = J[f.key];
     return `
-    <div style="margin-bottom:3mm;padding:3mm 4mm;background:#fafafa;border-radius:7px;border:1px solid #f1f5f9;page-break-inside:avoid">
-      <div style="display:flex;align-items:center;gap:2.5mm;margin-bottom:1.5mm">
+    <div style="margin-bottom:3mm;padding:3mm 4mm;background:#fafafa;border-radius:7px;border:1px solid #f1f5f9;">
+      <!-- Cabeçalho do fator: tag + nome + badge + score — nunca deve quebrar no meio -->
+      <div style="display:flex;align-items:center;gap:2.5mm;margin-bottom:1.5mm;break-inside:avoid;page-break-inside:avoid;">
         <span style="display:inline-flex;align-items:center;justify-content:center;width:9mm;height:5.5mm;border-radius:4px;font-size:7.5px;font-weight:700;background:${col}15;border:1px solid ${col}40;color:${col};flex-shrink:0">${f.key}</span>
         <span style="flex:1;font-size:9.5px;font-weight:600;color:#111827">${f.long}</span>
         <span style="font-size:6.5px;font-weight:700;letter-spacing:.07em;padding:.8mm 2.5mm;border-radius:20px;border:1px solid ${col}40;background:${col}12;color:${col};flex-shrink:0">${RISK_LABEL[f.val]}</span>
         <span style="font-family:'Cormorant Garamond',serif;font-size:16pt;font-weight:700;line-height:1;color:${col};flex-shrink:0;min-width:11mm;text-align:right">${f.comp}<span style="font-size:9pt;color:#9ca3af">/${f.max}</span></span>
       </div>
+      <!-- Barra de progresso + descrição: podem quebrar naturalmente quando há justificativa longa -->
       <div style="height:2.5px;background:#e9ecef;border-radius:2px;margin-bottom:1.5mm;overflow:hidden">
         <div style="height:100%;width:${pct}%;background:${col};border-radius:2px"></div>
       </div>
       <div style="font-size:8.5px;color:#4b5563;line-height:1.55;margin-bottom:${just ? '1.5mm' : '0'};word-break:break-word;overflow-wrap:break-word">${DETAIL[f.key][f.val - 1]}</div>
-      ${just ? `<div style="background:#fff;border:1px solid #e9ecef;border-left:3px solid #C4A35A;border-radius:0 5px 5px 0;padding:1.5mm 2.5mm;font-size:8.5px;color:#374151;line-height:1.55;word-break:break-word;overflow-wrap:break-word;overflow:hidden;max-height:20mm"><span style="font-size:7px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#C4A35A;margin-right:1.5mm">Justificativa do gestor:</span>${just}</div>` : ''}
+      ${just ? `<div style="background:#fff;border:1px solid #e9ecef;border-left:3px solid #C4A35A;border-radius:0 5px 5px 0;padding:1.5mm 2.5mm;font-size:8.5px;color:#374151;line-height:1.55;word-break:break-word;overflow-wrap:break-word;max-height:20mm;overflow:hidden"><span style="font-size:7px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#C4A35A;margin-right:1.5mm">Justificativa do gestor:</span>${just}</div>` : ''}
     </div>`;
   }).join('');
 }
@@ -339,7 +341,7 @@ html,body{font-family:'Inter',sans-serif;font-size:13px;line-height:1.6;backgrou
 .cover{width:210mm;height:297mm;background:#0B1E33;position:relative;overflow:hidden;page-break-after:always;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .cover-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 55% at 90% 5%,rgba(21,52,80,.9) 0%,transparent 60%),radial-gradient(ellipse 40% 30% at 5% 90%,rgba(196,163,90,.06) 0%,transparent 65%)}
 .page{width:210mm;padding:12mm 13mm 16mm;position:relative;display:block}
-.pfooter{margin-top:6mm;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #e9ecef;padding-top:2mm}
+.pfooter{margin-top:6mm;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #e9ecef;padding-top:2mm;break-before:avoid;page-break-before:avoid}
 .pfooter-l{font-size:7px;color:#9ca3af;letter-spacing:.05em}
 .pfooter-r{font-family:'Cormorant Garamond',serif;font-size:9pt;font-weight:700;color:#C4A35A;letter-spacing:.12em}
 .pheader{display:flex;justify-content:space-between;align-items:center;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:1px solid #e9ecef}
