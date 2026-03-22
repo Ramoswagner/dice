@@ -85,13 +85,12 @@ function exportPDF() {
     document.getElementById('projectName')?.value?.trim() || 'Projeto sem nome'
   );
 
-  const truncate = (str, n = 280) => str.length > n ? str.slice(0, n).trimEnd() + '…' : str;
   const J = {
-    D:  escapeHtml(truncate(document.getElementById('justD')?.value?.trim()  || '')),
-    I:  escapeHtml(truncate(document.getElementById('justI')?.value?.trim()  || '')),
-    C1: escapeHtml(truncate(document.getElementById('justC1')?.value?.trim() || '')),
-    C2: escapeHtml(truncate(document.getElementById('justC2')?.value?.trim() || '')),
-    E:  escapeHtml(truncate(document.getElementById('justE')?.value?.trim()  || ''))
+    D:  escapeHtml(document.getElementById('justD')?.value?.trim()  || ''),
+    I:  escapeHtml(document.getElementById('justI')?.value?.trim()  || ''),
+    C1: escapeHtml(document.getElementById('justC1')?.value?.trim() || ''),
+    C2: escapeHtml(document.getElementById('justC2')?.value?.trim() || ''),
+    E:  escapeHtml(document.getElementById('justE')?.value?.trim()  || '')
   };
 
   const zc  = ZONE_COLORS[z];
