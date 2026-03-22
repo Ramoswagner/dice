@@ -413,7 +413,14 @@ html,body{
 /* ─────────────────────────────────────────
    PÁGINAS DE CONTEÚDO
    ───────────────────────────────────────── */
-.page{width:210mm;padding:12mm 13mm 13mm;position:relative}
+.page{
+  width:210mm;padding:12mm 13mm 13mm;position:relative;
+  /* Clona padding/border em cada fragmento de página.
+     Sem isso, o padding-top 12mm só aparece na 1ª página do div;
+     quando uma tabela quebra no meio, a continuação fica sem margem. */
+  box-decoration-break:clone;
+  -webkit-box-decoration-break:clone;
+}
 
 .pheader{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:3.5mm;margin-bottom:5mm;border-bottom:2px solid #0B1E33}
 .ph-title{font-family:'Cormorant Garamond',serif;font-size:18pt;font-weight:600;color:#0B1E33;letter-spacing:.01em;line-height:1}
