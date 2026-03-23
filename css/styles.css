@@ -339,8 +339,8 @@ canvas#diceChart  { width: 100%; height: auto; border-radius: 12px; background: 
 .toast.show  { transform: translateY(0); opacity: 1; }
 
 /* ── Banner de popup bloqueado ── */
-.popup-banner         { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(120px); background: rgba(11,30,51,0.97); border: 1px solid rgba(242,92,92,0.5); color: var(--ink); padding: 14px 20px; border-radius: 16px; font-size: 13px; z-index: 999; backdrop-filter: blur(12px); display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); transition: transform .3s var(--ease); min-width: 320px; max-width: 90vw; }
-.popup-banner.show    { transform: translateX(-50%) translateY(0); }
+.popup-banner         { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); background: rgba(11,30,51,0.97); border: 1px solid rgba(242,92,92,0.5); color: var(--ink); padding: 14px 20px; border-radius: 16px; font-size: 13px; z-index: 1000; backdrop-filter: blur(12px); display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); min-width: 320px; max-width: 90vw; opacity: 0; pointer-events: none; visibility: hidden; transition: opacity .3s, visibility .3s; }
+.popup-banner.show    { opacity: 1; pointer-events: auto; visibility: visible; }
 .popup-banner-close   { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 18px; padding: 0 4px; flex-shrink: 0; }
 .popup-banner-retry   { background: rgba(196,163,90,0.15); border: 1px solid rgba(196,163,90,0.4); color: var(--gold); padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
 
