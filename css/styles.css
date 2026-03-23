@@ -6,11 +6,8 @@
 /* ── Tokens de design ── */
 :root {
   --deep:       #0B1E33;
-  --deep-soft:  #0F2A40;
-  --medium:     #153450;
   --gold:       #C4A35A;
   --gold-lt:    #D8B87A;
-  --gold-dim:   rgba(196,163,90,0.12);
 
   --bright:     #03A63C;
   --lime:       #04D939;
@@ -21,11 +18,8 @@
   --muted:      #A0B3CC;
 
   --border:     rgba(255,255,255,0.06);
-  --border-md:  rgba(196,163,90,0.2);
-  --surface:    rgba(255,255,255,0.02);
 
   --radius:     20px;
-  --radius-sm:  12px;
   --shadow:     0 20px 40px -12px rgba(0,0,0,0.6);
 
   --serif:      'Cormorant Garamond', Georgia, serif;
@@ -120,6 +114,29 @@ body::before {
 .opt-btn:hover .tip,
 .opt-btn:focus-within .tip { display: block; }
 
+/* FIX #05 — em touch/mobile o tooltip não é acessível via hover.
+   Em telas touch, mostramos o .tip do botão selecionado como painel fixo
+   abaixo do grupo, usando a classe .tip-panel injetada pelo JS */
+.factor-tip-panel {
+  margin-top: 4px;
+  padding: 8px 12px;
+  background: rgba(11,30,51,0.85);
+  border: 1px solid rgba(196,163,90,0.25);
+  border-radius: 10px;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.55;
+  display: none;
+}
+.factor-tip-panel.visible { display: block; }
+@media (pointer: coarse) {
+  /* Em dispositivos touch, oculta os tooltips hover normais
+     e mostra apenas o painel contextual abaixo */
+  .tip { display: none !important; }
+  .factor-tip-panel { display: none; }
+  .factor-tip-panel.visible { display: block; }
+}
+
 /* ── Inputs do projeto ── */
 .project-name-row    { margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
 .project-name-label  { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; display: block; }
@@ -148,8 +165,9 @@ body::before {
   background: rgba(11,30,51,0.75);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
-  padding: 0 40px;
-  height: 70px;
+  /* FIX #07 — safe-area-inset-top para iPhone com notch/Dynamic Island */
+  padding: env(safe-area-inset-top, 0) 40px 0;
+  min-height: 70px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -163,8 +181,8 @@ body::before {
 .header-logo-fallback   { font-family: var(--serif); font-size: 17px; font-weight: 600; color: var(--gold); letter-spacing: .04em; }
 .header-title           { font-family: var(--serif); font-size: 20px; font-weight: 600; color: var(--gold-lt); letter-spacing: .04em; }
 .header-sub             { font-size: 10px; color: #62748C; font-weight: 400; display: block; text-transform: uppercase; letter-spacing: .1em; }
-.header-nav             { display: flex; gap: 4px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 40px; padding: 4px; }
-.tab-btn                { padding: 8px 20px; border-radius: 40px; border: none; background: transparent; font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all .2s; }
+.header-nav             { display: flex; gap: 4px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 40px; padding: 4px; flex-shrink: 0; }
+.tab-btn                { padding: 8px 20px; border-radius: 40px; border: none; background: transparent; font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all .2s; white-space: nowrap; flex-shrink: 0; }
 .tab-btn:hover          { color: var(--ink); background: rgba(255,255,255,0.03); }
 .tab-btn.active         { background: linear-gradient(135deg, var(--gold), var(--gold-lt)); color: #0B1E33; box-shadow: 0 4px 16px rgba(196,163,90,0.25); }
 
@@ -191,7 +209,7 @@ body::before {
 .factor-options { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; overflow: visible; }
 
 /* Botões de opção */
-.opt-btn          { border: 1px solid var(--border); background: rgba(255,255,255,0.02); border-radius: 12px; padding: 8px 4px; cursor: pointer; transition: all .2s; text-align: center; }
+.opt-btn          { border: 1px solid var(--border); background: rgba(255,255,255,0.02); border-radius: 12px; padding: 8px 4px; cursor: pointer; transition: all .2s; text-align: center; min-height: 44px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .opt-btn .opt-num { display: block; font-size: 16px; font-weight: 700; color: var(--ink); font-family: var(--serif); }
 .opt-btn .opt-label { display: block; font-size: 10px; color: var(--muted); font-weight: 500; margin-top: 2px; }
 .opt-btn:hover    { border-color: rgba(196,163,90,0.3); background: rgba(196,163,90,0.05); }
@@ -343,11 +361,11 @@ canvas#diceChart  { width: 100%; aspect-ratio: 900 / 380; border-radius: 12px; b
 .citation-source span { background: rgba(196,163,90,0.1); padding: 2px 8px; border-radius: 20px; color: var(--lime); }
 
 /* ── Toast ── */
-.toast       { position: fixed; bottom: 28px; right: 28px; background: rgba(11,30,51,0.95); border: 1px solid var(--lime); color: var(--lime); padding: 14px 24px; border-radius: 40px; font-size: 14px; font-weight: 600; box-shadow: 0 10px 40px rgba(196,163,90,0.3); transform: translateY(80px); opacity: 0; transition: all .3s; z-index: 999; backdrop-filter: blur(12px); }
+.toast       { position: fixed; bottom: calc(28px + env(safe-area-inset-bottom, 0px)); right: 28px; background: rgba(11,30,51,0.95); border: 1px solid var(--lime); color: var(--lime); padding: 14px 24px; border-radius: 40px; font-size: 14px; font-weight: 600; box-shadow: 0 10px 40px rgba(196,163,90,0.3); transform: translateY(80px); opacity: 0; transition: all .3s; z-index: 999; backdrop-filter: blur(12px); }
 .toast.show  { transform: translateY(0); opacity: 1; }
 
 /* ── Banner de popup bloqueado ── */
-.popup-banner         { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); background: rgba(11,30,51,0.97); border: 1px solid rgba(242,92,92,0.5); color: var(--ink); padding: 14px 20px; border-radius: 16px; font-size: 13px; z-index: 1000; backdrop-filter: blur(12px); display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); min-width: 320px; max-width: 90vw; opacity: 0; pointer-events: none; visibility: hidden; transition: opacity .3s, visibility .3s; }
+.popup-banner         { position: fixed; bottom: calc(28px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); background: rgba(11,30,51,0.97); border: 1px solid rgba(242,92,92,0.5); color: var(--ink); padding: 14px 20px; border-radius: 16px; font-size: 13px; z-index: 1000; backdrop-filter: blur(12px); display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); min-width: 320px; max-width: 90vw; opacity: 0; pointer-events: none; visibility: hidden; transition: opacity .3s, visibility .3s; }
 .popup-banner.show    { opacity: 1; pointer-events: auto; visibility: visible; }
 .popup-banner-close   { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 18px; padding: 0 4px; flex-shrink: 0; }
 .popup-banner-retry   { background: rgba(196,163,90,0.15); border: 1px solid rgba(196,163,90,0.4); color: var(--gold); padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
@@ -468,6 +486,20 @@ canvas#diceChart  { width: 100%; aspect-ratio: 900 / 380; border-radius: 12px; b
 
   /* Referência: links em coluna */
   .guide-ref-links        { flex-direction: column; gap: 10px; }
+}
+
+/* ── Acessibilidade: sr-only (#22) ── */
+/* Texto visível apenas para leitores de tela */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* ── Acessibilidade: respeita prefers-reduced-motion ── */

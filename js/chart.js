@@ -76,11 +76,10 @@ function drawChart(score) {
   const PW = W - ML - MR;
   const PH = H - MT - MB;
 
-  // Em mobile, mostra apenas labels ímpares no eixo X (7,9,11…)
+  // Em mobile, mostra labels a cada 3 posicoes no eixo X
   const xStep = mobile ? 3 : 1;
-  // Font size responsivo
-  const fzAxis  = mobile ? '9px'  : '11px';
-  const fzLabel = mobile ? '9px'  : '11px';
+  // Font size responsivo — unificado (#14: variáveis redundantes mescladas em fz)
+  const fz = mobile ? '9px' : '11px';
 
   // Conversores de coordenadas do modelo → pixels
   const px = x => ML + (x - 7) / 21 * PW;
@@ -108,13 +107,13 @@ function drawChart(score) {
   // ── Barra de labels inferior ──
   const bh = PH * (0.6 / 5);
   const by = py(0) - bh;
-  _drawZoneBar(ctx, px, by, bh, transparent, fzLabel);
+  _drawZoneBar(ctx, px, by, bh, transparent, fz);
 
   // ── Separadores verticais de zona ──
   _drawZoneDividers(ctx, px, py, transparent);
 
   // ── Grid de eixos ──
-  _drawGrid(ctx, px, py, ML, PW, transparent, fzAxis, xStep);
+  _drawGrid(ctx, px, py, ML, PW, transparent, fz, xStep);
 
   // ── Marcador do score ──
   _drawScoreMarker(ctx, px, py, score, by, mobile);
@@ -151,7 +150,7 @@ function _drawZonePolygons(ctx, px, py) {
   ctx.restore(); // globalAlpha volta a 1
 }
 
-function _drawZoneBar(ctx, px, by, bh, transparent, fzLabel) {
+function _drawZoneBar(ctx, px, by, bh, transparent, fz) {
   ctx.fillStyle = '#03A63C';
   ctx.fillRect(px(7),  by, px(14) - px(7),  bh);
   ctx.fillStyle = '#F2B705';
@@ -159,7 +158,7 @@ function _drawZoneBar(ctx, px, by, bh, transparent, fzLabel) {
   ctx.fillStyle = '#F25C5C';
   ctx.fillRect(px(17), by, px(28) - px(17), bh);
 
-  ctx.font          = `bold ${fzLabel} "Cormorant Garamond",serif`;
+  ctx.font          = `bold ${fz} "Cormorant Garamond",serif`;
   ctx.textAlign     = 'center';
   ctx.textBaseline  = 'middle';
   ctx.fillStyle     = transparent ? 'rgba(255,255,255,0.9)' : '#fff';
@@ -180,12 +179,12 @@ function _drawZoneDividers(ctx, px, py, transparent) {
   ctx.restore();
 }
 
-function _drawGrid(ctx, px, py, ML, PW, transparent, fzAxis, xStep) {
+function _drawGrid(ctx, px, py, ML, PW, transparent, fz, xStep) {
   const tc = transparent ? 'rgba(200,210,230,0.85)' : '#8A9BB5';
   const gc = transparent ? 'rgba(255,255,255,0.1)'  : 'rgba(255,255,255,0.05)';
 
   // Eixo Y — labels apenas em 0, 2, 4 em mobile para não poluir
-  ctx.font          = `${fzAxis} "Inter",sans-serif`;
+  ctx.font          = `${fz} "Inter",sans-serif`;
   ctx.textAlign     = 'right';
   ctx.textBaseline  = 'middle';
   ctx.fillStyle     = tc;

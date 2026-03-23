@@ -64,3 +64,74 @@ function escapeHtml(str) {
     .replace(/"/g,  '&quot;')
     .replace(/'/g,  '&#39;');
 }
+
+// ══════════════════════════════════════════════
+// FIX #04 — Persistência via localStorage
+// Salva estado, nome do projeto e justificativas
+// a cada mudança. Restaura na inicialização.
+// ══════════════════════════════════════════════
+
+const STORAGE_KEY = 'dice_state_v1';
+
+/**
+ * Salva o estado atual no localStorage.
+ * Chamado após cada mudança de fator ou justificativa.
+ */
+// eslint-disable-next-line no-unused-vars
+function persistState() {
+  try {
+    const snapshot = {
+      factors: { D: _state.D, I: _state.I, C1: _state.C1, C2: _state.C2, E: _state.E },
+      project: document.getElementById('projectName')?.value || '',
+      just: {
+        D:  document.getElementById('justD')?.value  || '',
+        I:  document.getElementById('justI')?.value  || '',
+        C1: document.getElementById('justC1')?.value || '',
+        C2: document.getElementById('justC2')?.value || '',
+        E:  document.getElementById('justE')?.value  || ''
+      }
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot));
+  } catch (_) { /* storage indisponível — falha silenciosa */ }
+}
+
+/**
+ * Restaura o estado salvo do localStorage.
+ * Retorna true se havia dados para restaurar.
+ * @returns {boolean}
+ */
+// eslint-disable-next-line no-unused-vars
+function restoreState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return false;
+    const snap = JSON.parse(raw);
+
+    // Restaura fatores
+    if (snap.factors) {
+      ['D', 'I', 'C1', 'C2', 'E'].forEach(k => {
+        if (snap.factors[k]) setFactorRaw(k, snap.factors[k]);
+      });
+    }
+
+    // Restaura nome do projeto (aguarda DOM pronto)
+    if (snap.project) {
+      const pn = document.getElementById('projectName');
+      if (pn) pn.value = snap.project;
+    }
+
+    // Restaura justificativas e torna campos visíveis
+    if (snap.just) {
+      ['D', 'I', 'C1', 'C2', 'E'].forEach(k => {
+        const el = document.getElementById('just' + k);
+        if (el && snap.just[k]) {
+          el.value = snap.just[k];
+          const wrapper = document.getElementById('just-' + k);
+          if (wrapper) wrapper.classList.add('visible');
+        }
+      });
+    }
+
+    return true;
+  } catch (_) { return false; }
+}

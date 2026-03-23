@@ -2,8 +2,31 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DICE Model · Analisador BCG</title>
+<!-- FIX #07 — viewport-fit:cover para iPhones com notch/Dynamic Island -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>DICE Model · Analisador BCG · Wagner Ramos</title>
+
+<!-- FIX #09 — meta description e Open Graph para preview no LinkedIn -->
+<meta name="description" content="Analisador do modelo DICE do BCG — avalie a probabilidade de sucesso de projetos de mudança com base em 225 iniciativas reais. Relatório PDF em 3 páginas.">
+<meta property="og:title" content="DICE Model · Analisador BCG">
+<meta property="og:description" content="Framework BCG/HBR para gestão de mudança organizacional. Calcule o score DICE, identifique zonas de risco e gere relatório executivo em PDF.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ramoswagner.github.io/dice-model/">
+<meta property="og:image" content="https://ramoswagner.github.io/dice-model/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DICE Model · Analisador BCG">
+<meta name="twitter:description" content="Framework BCG/HBR para gestão de mudança — score, zonas de risco e relatório PDF executivo.">
+
+<!-- FIX #10 — favicon SVG + theme-color para barra do browser -->
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0B1E33">
+
+<!-- FIX #16 — PWA manifest -->
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DICE Model">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -27,10 +50,13 @@
       <span class="header-sub">Wagner Ramos · PMO &amp; BI</span>
     </div>
   </div>
-  <nav class="header-nav" aria-label="Navegação principal">
-    <button class="tab-btn active" onclick="switchTab('analyzer',event)"
+  <!-- FIX #17 — role="tablist" e role="tab" para ARIA compliant -->
+  <nav class="header-nav" aria-label="Navegação principal" role="tablist">
+    <button class="tab-btn active" id="tab-analyzer" role="tab"
+            onclick="switchTab('analyzer',event)"
             aria-controls="view-analyzer" aria-selected="true">Analisador</button>
-    <button class="tab-btn" onclick="switchTab('guide',event)"
+    <button class="tab-btn" id="tab-guide" role="tab"
+            onclick="switchTab('guide',event)"
             aria-controls="view-guide" aria-selected="false">Guia de Uso</button>
   </nav>
 </header>
@@ -38,7 +64,8 @@
 <div class="app">
 
   <!-- ══════════════ VIEW: ANALISADOR ══════════════ -->
-  <div class="view active" id="view-analyzer" role="tabpanel">
+  <!-- FIX #18 — aria-labelledby liga o panel ao tab correspondente -->
+  <div class="view active" id="view-analyzer" role="tabpanel" aria-labelledby="tab-analyzer">
     <div class="analyzer-grid">
 
       <!-- Card de inputs -->
@@ -83,7 +110,8 @@
                   <div class="tip" role="tooltip"><strong>Crítico (4pts)</strong> — O BCG identificou que o risco aumenta exponencialmente neste intervalo.</div>
                 </button>
               </div>
-              <div class="factor-justification" id="just-D">
+              
+              <div class="factor-tip-panel" aria-live="polite"></div><div class="factor-justification" id="just-D">
                 <textarea class="factor-just-input" id="justD" rows="2"
                           placeholder="Justificativa: ex. revisões quinzenais definidas no plano de projeto…"
                           aria-label="Justificativa para fator D"></textarea>
@@ -115,7 +143,8 @@
                   <div class="tip" role="tooltip"><strong>Crítico (4pts)</strong> — Equipe inadequada em múltiplas dimensões. O BCG aponta que a qualidade da equipe é o principal preditor de sucesso.</div>
                 </button>
               </div>
-              <div class="factor-justification" id="just-I">
+              
+              <div class="factor-tip-panel" aria-live="polite"></div><div class="factor-justification" id="just-I">
                 <textarea class="factor-just-input" id="justI" rows="2"
                           placeholder="Justificativa: ex. líder sênior com 10 anos de experiência em projetos similares…"
                           aria-label="Justificativa para fator I"></textarea>
@@ -147,7 +176,8 @@
                   <div class="tip" role="tooltip"><strong>Crítico (4pts)</strong> — Resistência ou ausência visível do topo. O BCG considera este o fator mais determinante do fracasso.</div>
                 </button>
               </div>
-              <div class="factor-justification" id="just-C1">
+              
+              <div class="factor-tip-panel" aria-live="polite"></div><div class="factor-justification" id="just-C1">
                 <textarea class="factor-just-input" id="justC1" rows="2"
                           placeholder="Justificativa: ex. diretoria realiza roadshows mensais sobre o projeto…"
                           aria-label="Justificativa para fator C1"></textarea>
@@ -178,7 +208,8 @@
                   <div class="tip" role="tooltip"><strong>Alta resistência (4pts)</strong> — Oposição ativa. Requer plano de gestão da mudança estruturado.</div>
                 </button>
               </div>
-              <div class="factor-justification" id="just-C2">
+              
+              <div class="factor-tip-panel" aria-live="polite"></div><div class="factor-justification" id="just-C2">
                 <textarea class="factor-just-input" id="justC2" rows="2"
                           placeholder="Justificativa: ex. pesquisa de clima indicou 40% de resistência na área afetada…"
                           aria-label="Justificativa para fator C2"></textarea>
@@ -209,7 +240,8 @@
                   <div class="tip" role="tooltip"><strong>Insustentável (4pts)</strong> — Mais de 40% de carga adicional. Alto risco de burnout e abandono do projeto.</div>
                 </button>
               </div>
-              <div class="factor-justification" id="just-E">
+              
+              <div class="factor-tip-panel" aria-live="polite"></div><div class="factor-justification" id="just-E">
                 <textarea class="factor-just-input" id="justE" rows="2"
                           placeholder="Justificativa: ex. equipe com ~15% de horas extras previstas durante implantação…"
                           aria-label="Justificativa para fator E"></textarea>
@@ -284,7 +316,8 @@
               <div class="toggle-track"></div>
             </label>
           </div>
-          <canvas id="diceChart" width="900" height="380"
+          <!-- FIX #12 — width/height removidos; aspect-ratio CSS é a única fonte de verdade -->
+          <canvas id="diceChart"
                   role="img" aria-label="Gráfico DICE: pontuação 7, zona WIN"></canvas>
         </div>
 
@@ -332,7 +365,7 @@
 
 
   <!-- ══════════════ VIEW: GUIA ══════════════ -->
-  <div class="view" id="view-guide" role="tabpanel">
+  <div class="view" id="view-guide" role="tabpanel" aria-labelledby="tab-guide">
 
     <!-- ── 1. Origem e contexto ── -->
     <div class="guide-hero">
@@ -508,6 +541,8 @@
         O BCG mapeou os scores dos 225 projetos estudados contra seus resultados reais e identificou três zonas de probabilidade. A tabela abaixo apresenta a interpretação completa de cada faixa, com as taxas de sucesso observadas na base de dados original.
       </div>
       <table class="guide-score-table">
+        <!-- FIX #19 — caption para leitores de tela -->
+        <caption class="sr-only">Interpretação das zonas de score DICE e condutas recomendadas</caption>
         <thead>
           <tr>
             <th>Score</th>
@@ -617,28 +652,28 @@
 
     <div class="guide-pitfall-list" style="margin-bottom:24px">
       <div class="guide-pitfall">
-        <span class="guide-pitfall-icon">⚠️</span>
+        <span class="guide-pitfall-icon" aria-hidden="true">⚠️</span>
         <div>
           <div class="guide-pitfall-title">Avaliar com viés de confirmação</div>
           <div class="guide-pitfall-text">O maior inimigo do DICE é o gestor que quer um score WIN independente da realidade. A ferramenta só tem valor diagnóstico quando os fatores são avaliados com honestidade radical. O BCG recomenda que avaliações críticas sejam feitas por múltiplos respondentes — e que divergências sejam investigadas, não suprimidas.</div>
         </div>
       </div>
       <div class="guide-pitfall">
-        <span class="guide-pitfall-icon">⚠️</span>
+        <span class="guide-pitfall-icon" aria-hidden="true">⚠️</span>
         <div>
           <div class="guide-pitfall-title">Confundir duração total com intervalo de revisão</div>
           <div class="guide-pitfall-text">D avalia o intervalo entre checkpoints — não o tamanho do projeto. Um projeto de 3 anos com revisões mensais pontua melhor em D do que um projeto de 6 meses sem revisões intermediárias. Este é o erro mais comum na primeira aplicação do framework.</div>
         </div>
       </div>
       <div class="guide-pitfall">
-        <span class="guide-pitfall-icon">⚠️</span>
+        <span class="guide-pitfall-icon" aria-hidden="true">⚠️</span>
         <div>
           <div class="guide-pitfall-title">Calcular uma vez e arquivar</div>
           <div class="guide-pitfall-text">O score DICE muda ao longo do projeto — e frequentemente piora nas fases de implementação intensiva, quando C2 deteriora e E aumenta. Projetos que começam na zona WIN podem migrar para WORRY sem que ninguém perceba se não houver recálculo periódico.</div>
         </div>
       </div>
       <div class="guide-pitfall">
-        <span class="guide-pitfall-icon">⚠️</span>
+        <span class="guide-pitfall-icon" aria-hidden="true">⚠️</span>
         <div>
           <div class="guide-pitfall-title">Tratar o DICE como único critério de decisão</div>
           <div class="guide-pitfall-text">O framework prediz a probabilidade de sucesso na execução — não avalia a validade estratégica, o retorno financeiro ou a urgência do projeto. Um score WOE não significa necessariamente "cancelar": significa "reestruturar antes de prosseguir". A decisão final requer contexto que vai além do modelo.</div>
@@ -678,15 +713,18 @@
       </div>
       <div class="guide-ref-links">
         <a href="https://hbr.org/2005/10/the-hard-side-of-change-management"
-           target="_blank" rel="noopener" class="guide-ref-link">
-          → Artigo na Harvard Business Review ↗
+           target="_blank" rel="noopener" class="guide-ref-link"
+           aria-label="Acessar artigo na Harvard Business Review (abre em nova aba)">
+          <span aria-hidden="true">→</span> Artigo na Harvard Business Review <span aria-hidden="true">↗</span>
         </a>
         <a href="https://web.mit.edu/curhan/www/docs/Articles/15341_Readings/Organizational_Cognition_&_Learning/Sirkin_Hard_Side_of_Change_Management.pdf"
-           target="_blank" rel="noopener" class="guide-ref-link">
+           target="_blank" rel="noopener" class="guide-ref-link"
+           aria-label="Baixar PDF completo do artigo via MIT (abre em nova aba)">
           → PDF completo (MIT) ↗
         </a>
         <a href="https://www.bcg.com/publications/2005/change_management_program_management_hard_side_change_management"
-           target="_blank" rel="noopener" class="guide-ref-link">
+           target="_blank" rel="noopener" class="guide-ref-link"
+           aria-label="Acessar publicação original do BCG (abre em nova aba)">
           → Publicação original do BCG ↗
         </a>
       </div>

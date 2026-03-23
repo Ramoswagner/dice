@@ -43,6 +43,18 @@ function selectFactor(btn) {
   // Exibe o campo de justificativa do fator selecionado
   const justDiv = document.getElementById('just-' + factor);
   if (justDiv) justDiv.classList.add('visible');
+
+  // FIX #05 — painel contextual para touch: mostra o tooltip do botão selecionado
+  // abaixo do grupo de opções em dispositivos sem hover (mobile/tablet)
+  const tipPanel = group.parentElement.querySelector('.factor-tip-panel');
+  if (tipPanel) {
+    const tipEl = btn.querySelector('.tip');
+    tipPanel.innerHTML = tipEl ? tipEl.innerHTML : '';
+    tipPanel.classList.add('visible');
+  }
+
+  // FIX #04 — persiste estado após cada seleção
+  if (typeof persistState === 'function') persistState();
 }
 
 // ══════════════════════════════════════════════
@@ -139,6 +151,7 @@ function resetAll() {
   });
 
   update();
+  if (typeof persistState === 'function') persistState();
   showToast('Valores resetados');
 }
 
@@ -199,10 +212,22 @@ function showToast(message) {
   if (!co) return;
 
   let mx = 0, my = 0, ox = 0, oy = 0, ix = 0, iy = 0;
+  // FIX #13 — pause loop after 3s of inactivity to save CPU/battery
+  let idle = false;
+  let idleTimer = null;
+  let rafId = null;
+
+  function resume() {
+    idle = false;
+    if (!rafId) loop();
+  }
 
   document.addEventListener('mousemove', e => {
     mx = e.clientX;
     my = e.clientY;
+    clearTimeout(idleTimer);
+    resume();
+    idleTimer = setTimeout(() => { idle = true; rafId = null; }, 3000);
   });
 
   // Event delegation: funciona para elementos injetados dinamicamente (modal, etc.)
@@ -215,6 +240,7 @@ function showToast(message) {
   });
 
   function loop() {
+    if (idle) { rafId = null; return; }
     ox += (mx - 22 - ox) * 0.08;
     oy += (my - 22 - oy) * 0.08;
     ix += (mx -  8 - ix) * 0.18;
@@ -222,7 +248,7 @@ function showToast(message) {
     co.style.transform   = `translate3d(${ox}px,${oy}px,0)`;
     ci.style.transform   = `translate3d(${ix}px,${iy}px,0)`;
     cdot.style.transform = `translate3d(${mx - 1.5}px,${my - 1.5}px,0)`;
-    requestAnimationFrame(loop);
+    rafId = requestAnimationFrame(loop);
   }
   loop();
 })();
@@ -230,4 +256,34 @@ function showToast(message) {
 // ══════════════════════════════════════════════
 // Inicialização
 // ══════════════════════════════════════════════
-update();
+
+// FIX #04 — restaura estado salvo, depois sincroniza a UI
+(function initFromStorage() {
+  const restored = typeof restoreState === 'function' && restoreState();
+  if (restored) {
+    // Sincroniza botões selecionados com o estado restaurado
+    document.querySelectorAll('.factor-options').forEach(group => {
+      const factor = group.dataset.factor;
+      const val    = typeof getFactorValue === 'function' ? getFactorValue(factor) : 1;
+      group.querySelectorAll('.opt-btn').forEach(btn => {
+        const isSelected = parseInt(btn.dataset.val, 10) === val;
+        btn.classList.toggle('selected', isSelected);
+        btn.setAttribute('aria-checked', isSelected ? 'true' : 'false');
+      });
+    });
+  }
+  update();
+
+  // Persiste quando o usuário edita qualquer justificativa
+  ['justD','justI','justC1','justC2','justE'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', () => {
+      if (typeof persistState === 'function') persistState();
+    });
+  });
+  // Persiste quando o nome do projeto muda
+  const pn = document.getElementById('projectName');
+  if (pn) pn.addEventListener('input', () => {
+    if (typeof persistState === 'function') persistState();
+  });
+})();
