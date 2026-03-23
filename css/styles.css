@@ -238,6 +238,10 @@ body::before {
 .toggle-switch input:checked + .toggle-track::after { left: 21px; background: white; box-shadow: 0 0 10px white; }
 
 canvas#diceChart  { width: 100%; aspect-ratio: 900 / 380; border-radius: 12px; background: rgba(11,30,51,0.3); display: block; }
+@media (max-width: 500px) {
+  /* Mobile: proporção mais alta para o gráfico ter espaço vertical suficiente */
+  canvas#diceChart  { aspect-ratio: 4 / 3; }
+}
 
 /* ── Breakdown ── */
 .breakdown-grid   { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; margin-top: 8px; }
