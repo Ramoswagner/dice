@@ -239,8 +239,12 @@ body::before {
 
 canvas#diceChart  { width: 100%; aspect-ratio: 900 / 380; border-radius: 12px; background: rgba(11,30,51,0.3); display: block; }
 @media (max-width: 500px) {
-  /* Mobile: proporção mais alta para o gráfico ter espaço vertical suficiente */
-  canvas#diceChart  { aspect-ratio: 4 / 3; }
+  /* Proporção mais alta para o gráfico ter espaço vertical suficiente */
+  canvas#diceChart { aspect-ratio: 4 / 3; }
+  /* Esconde o texto "Fundo transparente" — mantém só o toggle icon.
+     Isso permite que "Gráfico DICE" fique em uma linha,
+     equilibrando o card e removendo a sensação de desalinhamento. */
+  .toggle-label    { display: none; }
 }
 
 /* ── Breakdown ── */
