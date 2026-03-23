@@ -25,27 +25,27 @@ function getCanvas() {
  * @returns {{ ctx: CanvasRenderingContext2D, W: number, H: number, dpr: number }}
  */
 function setupCanvas(canvas) {
-  // offsetWidth é o tamanho CSS real do elemento após layout.
-  // Retorna 0 se ainda não foi renderizado — neste caso abortamos.
+  // offsetWidth/offsetHeight refletem as dimensões CSS reais após layout.
+  // Com aspect-ratio:900/380 no CSS, offsetHeight já é proporcional.
+  // Retornam 0 antes do layout completar — neste caso abortamos.
   const displayW = canvas.offsetWidth;
-  if (!displayW) return null;
+  const displayH = canvas.offsetHeight || Math.round(displayW * 380 / 900);
+  if (!displayW || !displayH) return null;
 
-  const dpr      = window.devicePixelRatio || 1;
-  const displayH = Math.round(displayW * 380 / 900);
-  const physW    = Math.round(displayW * dpr);
-  const physH    = Math.round(displayH * dpr);
+  const dpr  = window.devicePixelRatio || 1;
+  const physW = Math.round(displayW * dpr);
+  const physH = Math.round(displayH * dpr);
 
-  // Só redimensiona o buffer físico se necessário.
-  // NÃO alteramos canvas.style.width/height — o CSS (width:100%) cuida disso.
+  // Só redimensiona o buffer físico quando necessário.
+  // O CSS (width:100% + aspect-ratio) controla o tamanho visual — não tocamos no style.
   if (canvas.width !== physW || canvas.height !== physH) {
     canvas.width  = physW;
     canvas.height = physH;
   }
 
   const ctx = canvas.getContext('2d');
-  // Reseta qualquer transformação acumulada de chamadas anteriores,
-  // depois aplica a escala HiDPI limpa.
-  ctx.setTransform(1, 0, 0, 1, 0, 0);  // reset
+  // Reset de qualquer transformação acumulada, depois escala HiDPI limpa.
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.scale(dpr, dpr);
   return { ctx, W: displayW, H: displayH };
 }
